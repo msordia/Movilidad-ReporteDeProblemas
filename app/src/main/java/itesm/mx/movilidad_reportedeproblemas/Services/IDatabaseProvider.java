@@ -15,8 +15,8 @@ public interface IDatabaseProvider {
     boolean deleteReport(long id);
     long addReport(Report report);
 
-    Category getCategory(String name);
+    Category getCategory(long id);
     List<Category> getCategories();
-    boolean deleteCategory(String name);
-    String addCategory(Category cateogry);
+    boolean deleteCategory(long id);
+    long addCategory(Category cateogry);
 }

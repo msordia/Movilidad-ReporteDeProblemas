@@ -1,5 +1,6 @@
 package itesm.mx.movilidad_reportedeproblemas;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -47,6 +48,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         if (result) {
             Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, GenerateReportActivity.class));
         } else {
             Toast.makeText(this, "Usuario o contraseña incorrecto", Toast.LENGTH_SHORT).show();
         }

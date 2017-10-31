@@ -42,13 +42,13 @@ public class ListDatabaseProvider implements IDatabaseProvider {
     @Override
     public long addReport(Report report) {
         reports.add(report);
-        return 0;
+        return report.getId();
     }
 
     @Override
-    public Category getCategory(String name) {
+    public Category getCategory(long id) {
         for (Category category : categories){
-            if (category.getName().equals(name))
+            if (category.getId() == id)
                 return category;
         }
         return null;
@@ -60,17 +60,17 @@ public class ListDatabaseProvider implements IDatabaseProvider {
     }
 
     @Override
-    public boolean deleteCategory(String name) {
+    public boolean deleteCategory(long id) {
         for (Category category : categories){
-            if (category.getName().equals(name))
+            if (category.getId() == id)
                 return categories.remove(category);
         }
         return false;
     }
 
     @Override
-    public String addCategory(Category cateogry) {
+    public long addCategory(Category cateogry) {
         categories.add(cateogry);
-        return cateogry.getName();
+        return cateogry.getId();
     }
 }
