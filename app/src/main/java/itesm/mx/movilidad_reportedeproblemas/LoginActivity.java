@@ -47,7 +47,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Log.i("Login", username + " " + password + " " + result);
 
         if (result) {
-            Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, GenerateReportActivity.class));
         } else {
             Toast.makeText(this, "Usuario o contraseña incorrecto", Toast.LENGTH_SHORT).show();
