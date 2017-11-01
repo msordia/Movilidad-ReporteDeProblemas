@@ -1,62 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="itesm.mx.movilidad_reportedeproblemas.GenerateReportActivity"
-    android:orientation="vertical">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="¿Qué sucedio?"/>
-
-    <Spinner android:id="@+id/spinner_generateReport"
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        ></Spinner>
+        android:layout_height="match_parent"
+        tools:context="itesm.mx.movilidad_reportedeproblemas.GenerateReportActivity"
+        android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <ImageButton
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/camera"
-            android:background="@android:color/transparent"
-            android:scaleType="fitCenter"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¿Qué sucedio?"/>
+
+        <Spinner android:id="@+id/spinner_generateReport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ></Spinner>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageButton android:id="@+id/button_generateReport_photo"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/camera"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:layout_weight="1"/>
+            <ImageButton android:id="@+id/button_generateReport_recordAudio"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/microphone"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:layout_margin="10dp"
+                android:layout_weight="1"/>
+            <ImageButton android:id="@+id/button_generateReport_addAtachment"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/attach"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:layout_margin="10dp"
+                android:layout_weight="1"/>
+            <ImageButton android:id="@+id/button_generateReport_addComment"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/add_text"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:layout_margin="10dp"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/layout_generateReport_extras"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:layout_weight="1"/>
-        <ImageButton
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/microphone"
-            android:background="@android:color/transparent"
-            android:scaleType="fitCenter"
-            android:layout_margin="10dp"
-            android:layout_weight="1"/>
-        <ImageButton
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/attach"
-            android:background="@android:color/transparent"
-            android:scaleType="fitCenter"
-            android:layout_margin="10dp"
-            android:layout_weight="1"/>
-        <ImageButton
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/add_text"
-            android:background="@android:color/transparent"
-            android:scaleType="fitCenter"
-            android:layout_margin="10dp"
-            android:layout_weight="1"/>
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+        <Button android:id="@+id/button_generateReport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enviar"/>
+
     </LinearLayout>
 
-    <Button android:id="@+id/button_generateReport"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Enviar"/>
-
-</LinearLayout>
+</ScrollView>

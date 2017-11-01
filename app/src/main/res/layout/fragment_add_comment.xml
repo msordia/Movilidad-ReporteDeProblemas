@@ -1,0 +1,37 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:layout_margin="10dp">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/add_text"
+            android:layout_weight="1"
+            android:scaleType="fitStart"
+            android:layout_margin="10dp"/>
+
+        <ImageButton android:id="@+id/button_comment_cancel"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:scaleType="fitCenter"
+            android:background="@android:color/transparent"
+            android:layout_margin="10dp"
+            android:src="@drawable/cancel"/>
+
+    </LinearLayout>
+
+    <EditText android:id="@+id/edit_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Agrega tu comentario."
+        android:textSize="10pt"
+        android:layout_margin="10dp"
+        />
+</LinearLayout>
