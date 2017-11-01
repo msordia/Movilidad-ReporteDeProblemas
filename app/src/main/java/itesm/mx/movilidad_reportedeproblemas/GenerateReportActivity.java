@@ -1,9 +1,11 @@
 package itesm.mx.movilidad_reportedeproblemas;
 
+import android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 import itesm.mx.movilidad_reportedeproblemas.Adapters.CategoryAdapter;
 import itesm.mx.movilidad_reportedeproblemas.Models.Category;
 import itesm.mx.movilidad_reportedeproblemas.Services.DummyLocationService;
+import itesm.mx.movilidad_reportedeproblemas.Services.GPSTracker;
 import itesm.mx.movilidad_reportedeproblemas.Services.IBitmapManager.HashByteArrayManager;
 import itesm.mx.movilidad_reportedeproblemas.Services.IBitmapManager.IByteArrayManager;
 import itesm.mx.movilidad_reportedeproblemas.Services.ICommentManager.HashStringManager;
@@ -36,7 +39,7 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
     public static final int PATH_CONTAINER = 1;
     public static final int COMMENT_CONTAINER = 2;
 
-    private ILocationService _locationService = new DummyLocationService();
+    private ILocationService _locationService;
     private IDatabaseProvider _db = new ListDatabaseProvider();
     private IStringManager _commentManager = new HashStringManager();
     private IByteArrayManager _bitmapManager = new HashByteArrayManager();
@@ -71,6 +74,10 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
         btnAttachFile.setOnClickListener(this);
 
         vgExtras = (LinearLayout) findViewById(R.id.layout_generateReport_extras);
+
+        _locationService = new GPSTracker(this);
+
+        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},123);
     }
 
     @Override
@@ -99,7 +106,7 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
 
         Category category = (Category) spinner.getSelectedItem();
 
-        Log.i("GenerateReport", String.format("(%f, %f) %s", location.Longitude, location.Latitude, category.getName()));
+        Log.i("GenerateReport", String.format("(%f, %f) %s", location.Latitude, location.Longitude, category.getName()));
         for (String comment : _commentManager.getStrings()) {
             Log.i("GenerateReport", comment);
         }
