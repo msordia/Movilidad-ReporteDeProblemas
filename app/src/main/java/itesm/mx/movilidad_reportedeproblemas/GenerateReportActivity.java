@@ -17,6 +17,8 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.Arrays;
+
 import itesm.mx.movilidad_reportedeproblemas.Adapters.CategoryAdapter;
 import itesm.mx.movilidad_reportedeproblemas.Models.Category;
 import itesm.mx.movilidad_reportedeproblemas.Services.DummyLocationService;
@@ -77,7 +79,7 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
 
         _locationService = new GPSTracker(this);
 
-        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},123);
+        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.RECORD_AUDIO},1);
     }
 
     @Override
@@ -113,6 +115,9 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
 
         Log.i("GenerateReport", "Bitmaps: " + _bitmapManager.getByteArrays().size());
         Log.i("GenerateReport", "Audios: " + _soundManager.getByteArrays().size());
+        for (byte[] bytes : _soundManager.getByteArrays()) {
+            Log.i("GenerateReport", bytes.length + "\t" + Arrays.toString(bytes));
+        }
 
         for (String path : _fileManager.getStrings()) {
             Log.i("GenerateReport", path);
