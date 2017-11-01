@@ -83,7 +83,7 @@ public class AddCommentFragment extends android.app.Fragment {
         if (context instanceof IStringManager) {
             _commentManager = (IStringManager) context;
         } else if (context instanceof IContainer) {
-            _commentManager = (IStringManager)((IContainer) context).getComponent(IStringManager.class, 0);
+            _commentManager = (IStringManager)((IContainer) context).getComponent(IStringManager.class, GenerateReportActivity.COMMENT_CONTAINER);
         } else {
                 throw new RuntimeException(context.toString()
                         + " must implement IStringManager or ICommentManagerContainer");

@@ -1,5 +1,6 @@
 package itesm.mx.movilidad_reportedeproblemas;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.provider.MediaStore;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import itesm.mx.movilidad_reportedeproblemas.Adapters.CategoryAdapter;
 import itesm.mx.movilidad_reportedeproblemas.Models.Category;
@@ -28,14 +30,18 @@ import itesm.mx.movilidad_reportedeproblemas.Services.ListDatabaseProvider;
 public class GenerateReportActivity extends AppCompatActivity implements View.OnClickListener, IContainer{
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int PICK_FILE_RESULT_CODE = 2;
     public static final int BITMAP_CONTAINER = 1;
     public static final int AUDIO_CONTAINER = 2;
+    public static final int PATH_CONTAINER = 1;
+    public static final int COMMENT_CONTAINER = 2;
 
     private ILocationService _locationService = new DummyLocationService();
     private IDatabaseProvider _db = new ListDatabaseProvider();
     private IStringManager _commentManager = new HashStringManager();
     private IByteArrayManager _bitmapManager = new HashByteArrayManager();
     private IByteArrayManager _soundManager = new HashByteArrayManager();
+    private IStringManager _fileManager = new HashStringManager();
 
     private Spinner spinner;
     private ViewGroup vgExtras;
@@ -61,6 +67,9 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
         ImageButton btnAddComment = (ImageButton) findViewById(R.id.button_generateReport_addComment);
         btnAddComment.setOnClickListener(this);
 
+        ImageButton btnAttachFile = (ImageButton) findViewById(R.id.button_generateReport_addAtachment);
+        btnAttachFile.setOnClickListener(this);
+
         vgExtras = (LinearLayout) findViewById(R.id.layout_generateReport_extras);
     }
 
@@ -79,6 +88,9 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
             case R.id.button_generateReport_addComment:
                 generateCommentFragment();
                 break;
+            case R.id.button_generateReport_addAtachment:
+                selectFile();
+                break;
         }
     }
 
@@ -91,8 +103,13 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
         for (String comment : _commentManager.getStrings()) {
             Log.i("GenerateReport", comment);
         }
+
         Log.i("GenerateReport", "Bitmaps: " + _bitmapManager.getByteArrays().size());
         Log.i("GenerateReport", "Audios: " + _soundManager.getByteArrays().size());
+
+        for (String path : _fileManager.getStrings()) {
+            Log.i("GenerateReport", path);
+        }
     }
 
     private void takePicture() {
@@ -102,11 +119,25 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
         }
     }
 
+    private void selectFile() {
+        Intent fileintent = new Intent(Intent.ACTION_GET_CONTENT);
+        fileintent.setType("*/*");
+        try {
+            startActivityForResult(fileintent, PICK_FILE_RESULT_CODE);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(this, "No hay aplicaciones para seleccionar archivos.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap bitmap = (Bitmap) extras.get("data");
             generatePhotoFragment(bitmap);
+        }
+        else if (requestCode == PICK_FILE_RESULT_CODE && resultCode == RESULT_OK) {
+            String filePath = data.getData().getPath();
+            generateFileFragment(filePath);
         }
     }
 
@@ -120,6 +151,11 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
         manager.beginTransaction().add(vgExtras.getId(), AudioRecordFragment.newInstance(), "audio").commit();
     }
 
+    private void generateFileFragment(String filePath) {
+        android.app.FragmentManager manager = getFragmentManager();
+        manager.beginTransaction().add(vgExtras.getId(), SelectFileFragment.newInstance(filePath), "file").commit();
+    }
+
     private void generateCommentFragment() {
         android.app.FragmentManager manager = getFragmentManager();
         manager.beginTransaction().add(vgExtras.getId(), AddCommentFragment.newInstance(), "comment").commit();
@@ -127,7 +163,15 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
 
     @Override
     public Object getComponent(Class<?> $class, int code) {
-        if ($class == IStringManager.class) return _commentManager;
+        if ($class == IStringManager.class) {
+            switch (code) {
+                case PATH_CONTAINER:
+                    return _fileManager;
+                case COMMENT_CONTAINER:
+                    return _commentManager;
+            }
+            return null;
+        }
         if ($class == IByteArrayManager.class) {
             switch(code){
                 case BITMAP_CONTAINER:
