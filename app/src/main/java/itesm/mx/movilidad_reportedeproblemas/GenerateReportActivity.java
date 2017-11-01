@@ -21,15 +21,14 @@ import java.util.Arrays;
 
 import itesm.mx.movilidad_reportedeproblemas.Adapters.CategoryAdapter;
 import itesm.mx.movilidad_reportedeproblemas.Models.Category;
-import itesm.mx.movilidad_reportedeproblemas.Services.DummyLocationService;
-import itesm.mx.movilidad_reportedeproblemas.Services.GPSTracker;
+import itesm.mx.movilidad_reportedeproblemas.Services.ILocationService.LocationService;
 import itesm.mx.movilidad_reportedeproblemas.Services.IBitmapManager.HashByteArrayManager;
 import itesm.mx.movilidad_reportedeproblemas.Services.IBitmapManager.IByteArrayManager;
 import itesm.mx.movilidad_reportedeproblemas.Services.ICommentManager.HashStringManager;
 import itesm.mx.movilidad_reportedeproblemas.Services.ICommentManager.IStringManager;
 import itesm.mx.movilidad_reportedeproblemas.Services.IContainer;
 import itesm.mx.movilidad_reportedeproblemas.Services.IDatabaseProvider;
-import itesm.mx.movilidad_reportedeproblemas.Services.ILocationService;
+import itesm.mx.movilidad_reportedeproblemas.Services.ILocationService.ILocationService;
 import itesm.mx.movilidad_reportedeproblemas.Services.ListDatabaseProvider;
 
 public class GenerateReportActivity extends AppCompatActivity implements View.OnClickListener, IContainer{
@@ -77,7 +76,7 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
 
         vgExtras = (LinearLayout) findViewById(R.id.layout_generateReport_extras);
 
-        _locationService = new GPSTracker(this);
+        _locationService = new LocationService(this);
 
         ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.RECORD_AUDIO},1);
     }
@@ -105,10 +104,13 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
 
     private void generateReport() {
         ILocationService.Location location = _locationService.getLocation();
+        if (location == null) {
+            location = new ILocationService.Location();
+        }
 
         Category category = (Category) spinner.getSelectedItem();
 
-        Log.i("GenerateReport", String.format("(%f, %f) %s", location.Latitude, location.Longitude, category.getName()));
+        Log.i("GenerateReport", String.format("(%f, %f) %s", location.getLatitude(), location.getLongitude(), category.getName()));
         for (String comment : _commentManager.getStrings()) {
             Log.i("GenerateReport", comment);
         }
