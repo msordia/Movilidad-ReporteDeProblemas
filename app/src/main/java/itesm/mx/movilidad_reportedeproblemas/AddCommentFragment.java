@@ -31,8 +31,7 @@ public class AddCommentFragment extends android.app.Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_add_comment, container, false);
 
         etComment = view.findViewById(R.id.edit_comment);

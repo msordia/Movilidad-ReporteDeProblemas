@@ -1,4 +1,4 @@
-package itesm.mx.movilidad_reportedeproblemas.Services;
+package itesm.mx.movilidad_reportedeproblemas.Services.IDatabaseProvider;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,6 +6,7 @@ import java.util.List;
 
 import itesm.mx.movilidad_reportedeproblemas.Models.Category;
 import itesm.mx.movilidad_reportedeproblemas.Models.Report;
+import itesm.mx.movilidad_reportedeproblemas.Services.IDatabaseProvider.IDatabaseProvider;
 
 /**
  * Created by juanc on 10/31/2017.

@@ -9,8 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import itesm.mx.movilidad_reportedeproblemas.Services.DummyLoginProvider;
-import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider;
+import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.DummyLoginProvider;
+import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.ILoginProvider;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private ILoginProvider _loginProvider;

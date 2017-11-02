@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -17,19 +18,32 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.util.Arrays;
+import java.io.IOException;
+import java.util.Collection;
 
 import itesm.mx.movilidad_reportedeproblemas.Adapters.CategoryAdapter;
 import itesm.mx.movilidad_reportedeproblemas.Models.Category;
+import itesm.mx.movilidad_reportedeproblemas.Models.Comment;
+import itesm.mx.movilidad_reportedeproblemas.Models.Image;
+import itesm.mx.movilidad_reportedeproblemas.Models.Report;
+import itesm.mx.movilidad_reportedeproblemas.Models.UploadedFile;
+import itesm.mx.movilidad_reportedeproblemas.Models.Voicenote;
+import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.DummyLoginProvider;
+import itesm.mx.movilidad_reportedeproblemas.Services.IFileReader.FileReader;
+import itesm.mx.movilidad_reportedeproblemas.Services.IFileReader.IFileReader;
+import itesm.mx.movilidad_reportedeproblemas.Services.FileNameFinder;
 import itesm.mx.movilidad_reportedeproblemas.Services.ILocationService.LocationService;
 import itesm.mx.movilidad_reportedeproblemas.Services.IBitmapManager.HashByteArrayManager;
 import itesm.mx.movilidad_reportedeproblemas.Services.IBitmapManager.IByteArrayManager;
 import itesm.mx.movilidad_reportedeproblemas.Services.ICommentManager.HashStringManager;
 import itesm.mx.movilidad_reportedeproblemas.Services.ICommentManager.IStringManager;
 import itesm.mx.movilidad_reportedeproblemas.Services.IContainer;
-import itesm.mx.movilidad_reportedeproblemas.Services.IDatabaseProvider;
+import itesm.mx.movilidad_reportedeproblemas.Services.IDatabaseProvider.IDatabaseProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.ILocationService.ILocationService;
-import itesm.mx.movilidad_reportedeproblemas.Services.ListDatabaseProvider;
+import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.ILoginProvider;
+import itesm.mx.movilidad_reportedeproblemas.Services.IDatabaseProvider.ListDatabaseProvider;
+import itesm.mx.movilidad_reportedeproblemas.Services.PermissionChecker;
+import itesm.mx.movilidad_reportedeproblemas.Services.UriPathFinder;
 
 public class GenerateReportActivity extends AppCompatActivity implements View.OnClickListener, IContainer{
 
@@ -46,6 +60,8 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
     private IByteArrayManager _bitmapManager = new HashByteArrayManager();
     private IByteArrayManager _soundManager = new HashByteArrayManager();
     private IStringManager _fileManager = new HashStringManager();
+    private IFileReader _fileReader = new FileReader();
+    private ILoginProvider _loginProvider = new DummyLoginProvider();
 
     private Spinner spinner;
     private ViewGroup vgExtras;
@@ -77,8 +93,6 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
         vgExtras = (LinearLayout) findViewById(R.id.layout_generateReport_extras);
 
         _locationService = new LocationService(this);
-
-        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.RECORD_AUDIO},1);
     }
 
     @Override
@@ -103,6 +117,11 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
     }
 
     private void generateReport() {
+        if (!PermissionChecker.checkPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            return;
+        }
+
         ILocationService.Location location = _locationService.getLocation();
         if (location == null) {
             location = new ILocationService.Location();
@@ -110,20 +129,41 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
 
         Category category = (Category) spinner.getSelectedItem();
 
-        Log.i("GenerateReport", String.format("(%f, %f) %s", location.getLatitude(), location.getLongitude(), category.getName()));
-        for (String comment : _commentManager.getStrings()) {
-            Log.i("GenerateReport", comment);
+        Report report = new Report();
+        report.setCategoryId(category.getId());
+        report.setLatitude(location.getLatitude());
+        report.setLongitude(location.getLongitude());
+        report.setUserId(_loginProvider.getCurrentUserId());
+
+        Collection<Image> images = report.getImages();
+        for (byte[] bytes : _bitmapManager.getByteArrays()) {
+            images.add(new Image(bytes));
         }
 
-        Log.i("GenerateReport", "Bitmaps: " + _bitmapManager.getByteArrays().size());
-        Log.i("GenerateReport", "Audios: " + _soundManager.getByteArrays().size());
+        Collection<Voicenote> voicenotes = report.getVoicenotes();
         for (byte[] bytes : _soundManager.getByteArrays()) {
-            Log.i("GenerateReport", bytes.length + "\t" + Arrays.toString(bytes));
+            voicenotes.add(new Voicenote(bytes));
         }
 
-        for (String path : _fileManager.getStrings()) {
-            Log.i("GenerateReport", path);
+        Collection<UploadedFile> files = report.getFiles();
+        for (String uriPath : _fileManager.getStrings()) {
+            try {
+                Uri uri = Uri.parse(uriPath);
+                String path = UriPathFinder.getPath(this, uri);
+                files.add(new UploadedFile(FileNameFinder.getName(path), _fileReader.readFile(this, uri)));
+            } catch (IOException e) {
+                Log.e("GenerateReport", e.toString());
+            }
         }
+
+        Collection<Comment> comments = report.getComments();
+        for (String comment : _commentManager.getStrings()) {
+            comments.add(new Comment(comment));
+        }
+
+        report.log();
+
+        _db.addReport(report);
     }
 
     private void takePicture() {
@@ -134,10 +174,17 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
     }
 
     private void selectFile() {
-        Intent fileintent = new Intent(Intent.ACTION_GET_CONTENT);
-        fileintent.setType("*/*");
+        if (!PermissionChecker.checkPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+            return;
+        }
+
+        Intent fileIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        fileIntent.setType("*/*");
+        fileIntent.addCategory(Intent.CATEGORY_OPENABLE);
+        fileIntent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
         try {
-            startActivityForResult(fileintent, PICK_FILE_RESULT_CODE);
+            startActivityForResult(fileIntent, PICK_FILE_RESULT_CODE);
         } catch (ActivityNotFoundException e) {
             Toast.makeText(this, "No hay aplicaciones para seleccionar archivos.", Toast.LENGTH_SHORT).show();
         }
@@ -150,7 +197,7 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
             generatePhotoFragment(bitmap);
         }
         else if (requestCode == PICK_FILE_RESULT_CODE && resultCode == RESULT_OK) {
-            String filePath = data.getData().getPath();
+            String filePath = data.getData().toString();
             generateFileFragment(filePath);
         }
     }

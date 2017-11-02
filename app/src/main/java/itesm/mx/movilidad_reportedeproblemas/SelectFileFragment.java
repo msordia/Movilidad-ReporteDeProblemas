@@ -1,22 +1,29 @@
 package itesm.mx.movilidad_reportedeproblemas;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 import itesm.mx.movilidad_reportedeproblemas.Services.ICommentManager.IStringManager;
 import itesm.mx.movilidad_reportedeproblemas.Services.IContainer;
+import itesm.mx.movilidad_reportedeproblemas.Services.UriPathFinder;
 
 public class SelectFileFragment extends android.app.Fragment {
     private final static String ARG_FILE = "filePath";
 
     private IStringManager _stringManager;
     private String _filePath;
+    private byte[] _bytes;
 
     private TextView tvFilePath;
 
@@ -47,7 +54,7 @@ public class SelectFileFragment extends android.app.Fragment {
         final View view = inflater.inflate(R.layout.fragment_select_file, container, false);
 
         tvFilePath = view.findViewById(R.id.text_attachFile_selected);
-        tvFilePath.setText(_filePath);
+        tvFilePath.setText(UriPathFinder.getPath(getActivity(), Uri.parse(_filePath)));
 
         ImageButton btnCancel = view.findViewById(R.id.button_attachFile_cancel);
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -59,6 +66,18 @@ public class SelectFileFragment extends android.app.Fragment {
         });
 
         return view;
+    }
+
+    public byte[] getBytes(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+        int bufferSize = 1024;
+        byte[] buffer = new byte[bufferSize];
+
+        int len = 0;
+        while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
+        }
+        return byteBuffer.toByteArray();
     }
 
     @Override

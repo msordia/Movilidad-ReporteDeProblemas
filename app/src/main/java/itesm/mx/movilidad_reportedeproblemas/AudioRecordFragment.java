@@ -1,8 +1,9 @@
 package itesm.mx.movilidad_reportedeproblemas;
 
+import android.Manifest;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.app.ActivityCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,13 +11,13 @@ import android.view.ViewParent;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-
 import itesm.mx.movilidad_reportedeproblemas.Services.IAudioPlayer.AudioPlayer;
 import itesm.mx.movilidad_reportedeproblemas.Services.IAudioPlayer.IAudioPlayer;
 import itesm.mx.movilidad_reportedeproblemas.Services.IAudioRecorder.AudioRecorder;
 import itesm.mx.movilidad_reportedeproblemas.Services.IAudioRecorder.IAudioRecorder;
 import itesm.mx.movilidad_reportedeproblemas.Services.IBitmapManager.IByteArrayManager;
 import itesm.mx.movilidad_reportedeproblemas.Services.IContainer;
+import itesm.mx.movilidad_reportedeproblemas.Services.PermissionChecker;
 
 
 public class AudioRecordFragment extends android.app.Fragment {
@@ -42,8 +43,7 @@ public class AudioRecordFragment extends android.app.Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_audio_record, container, false);
 
         btnRecord =  view.findViewById(R.id.button_audioRecord_record);
@@ -57,6 +57,11 @@ public class AudioRecordFragment extends android.app.Fragment {
             boolean record = true;
             @Override
             public void onClick(View view) {
+                if (!PermissionChecker.checkPermission(getActivity(), Manifest.permission.RECORD_AUDIO)) {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.RECORD_AUDIO}, 1);
+                    return;
+                }
+
                 if (record) {
                     _recorder.start();
                     btnRecord.setImageResource(R.drawable.stop);
@@ -68,7 +73,7 @@ public class AudioRecordFragment extends android.app.Fragment {
                     _byteArrayManager.addByteArray(_bytes);
 
                     double durationSeconds = _bytes.length / 8000.0 / 2;
-                    int minutes = (int)durationSeconds / 60;
+                    int minutes = (int) durationSeconds / 60;
                     double seconds = durationSeconds - minutes * 60;
 
                     tvDuration.setText(String.format("%d:%05.2f", minutes, seconds));
@@ -78,6 +83,7 @@ public class AudioRecordFragment extends android.app.Fragment {
                 }
 
                 record = !record;
+
             }
         });
 
