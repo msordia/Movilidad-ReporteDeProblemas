@@ -19,7 +19,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity">
+        <activity android:name=".Activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,12 +27,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".GenerateReportActivity"
+            android:name=".Activities.GenerateReportActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".SuccessActivity" />
-        <activity android:name=".AdminHomeActivity" />
-        <activity android:name=".MyReportsActivity" />
-        <activity android:name=".ReportDetailActivity"></activity>
+        <activity android:name=".Activities.SuccessActivity" />
+        <activity android:name=".Activities.AdminHomeActivity" />
+        <activity android:name=".Activities.MyReportsActivity" />
+        <activity android:name=".Activities.ReportDetailActivity"></activity>
     </application>
 
 </manifest>

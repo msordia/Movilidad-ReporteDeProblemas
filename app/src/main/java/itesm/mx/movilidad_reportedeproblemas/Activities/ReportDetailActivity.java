@@ -1,7 +1,9 @@
-package itesm.mx.movilidad_reportedeproblemas;
+package itesm.mx.movilidad_reportedeproblemas.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import itesm.mx.movilidad_reportedeproblemas.R;
 
 public class ReportDetailActivity extends AppCompatActivity {
 

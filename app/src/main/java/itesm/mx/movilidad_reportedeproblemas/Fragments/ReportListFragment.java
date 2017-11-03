@@ -1,20 +1,16 @@
-package itesm.mx.movilidad_reportedeproblemas;
+package itesm.mx.movilidad_reportedeproblemas.Fragments;
 
 import android.app.ListFragment;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 import itesm.mx.movilidad_reportedeproblemas.Adapters.ReportAdapter;
 import itesm.mx.movilidad_reportedeproblemas.Models.Report;
+import itesm.mx.movilidad_reportedeproblemas.R;
 
 public class ReportListFragment extends ListFragment {
     private static final String ARG_LIST = "list";

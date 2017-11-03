@@ -1,4 +1,4 @@
-package itesm.mx.movilidad_reportedeproblemas;
+package itesm.mx.movilidad_reportedeproblemas.Fragments;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -14,6 +14,8 @@ import android.widget.TextView;
 import java.io.ByteArrayOutputStream;
 import java.util.Date;
 
+import itesm.mx.movilidad_reportedeproblemas.Activities.GenerateReportActivity;
+import itesm.mx.movilidad_reportedeproblemas.R;
 import itesm.mx.movilidad_reportedeproblemas.Services.IBitmapManager.IByteArrayManager;
 import itesm.mx.movilidad_reportedeproblemas.Services.IContainer;
 

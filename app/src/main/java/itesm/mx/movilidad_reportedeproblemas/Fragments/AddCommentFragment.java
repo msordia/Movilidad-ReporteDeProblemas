@@ -1,4 +1,4 @@
-package itesm.mx.movilidad_reportedeproblemas;
+package itesm.mx.movilidad_reportedeproblemas.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import itesm.mx.movilidad_reportedeproblemas.Activities.GenerateReportActivity;
+import itesm.mx.movilidad_reportedeproblemas.R;
 import itesm.mx.movilidad_reportedeproblemas.Services.ICommentManager.IStringManager;
 import itesm.mx.movilidad_reportedeproblemas.Services.IContainer;
 

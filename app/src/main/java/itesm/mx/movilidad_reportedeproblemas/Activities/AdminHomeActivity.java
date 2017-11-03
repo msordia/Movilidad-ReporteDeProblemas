@@ -1,10 +1,11 @@
-package itesm.mx.movilidad_reportedeproblemas;
+package itesm.mx.movilidad_reportedeproblemas.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 
+import itesm.mx.movilidad_reportedeproblemas.R;
 import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.DummyLoginProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.ILoginProvider;
 

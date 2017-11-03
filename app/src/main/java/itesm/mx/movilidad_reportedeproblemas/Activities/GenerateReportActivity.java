@@ -1,4 +1,4 @@
-package itesm.mx.movilidad_reportedeproblemas;
+package itesm.mx.movilidad_reportedeproblemas.Activities;
 
 import android.Manifest;
 import android.content.ActivityNotFoundException;
@@ -19,17 +19,21 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
 import itesm.mx.movilidad_reportedeproblemas.Adapters.CategoryAdapter;
+import itesm.mx.movilidad_reportedeproblemas.Fragments.AddCommentFragment;
+import itesm.mx.movilidad_reportedeproblemas.Fragments.AudioRecordFragment;
+import itesm.mx.movilidad_reportedeproblemas.Fragments.SelectFileFragment;
+import itesm.mx.movilidad_reportedeproblemas.Fragments.TakePhotoFragment;
 import itesm.mx.movilidad_reportedeproblemas.Models.Category;
 import itesm.mx.movilidad_reportedeproblemas.Models.Comment;
 import itesm.mx.movilidad_reportedeproblemas.Models.Image;
 import itesm.mx.movilidad_reportedeproblemas.Models.Report;
 import itesm.mx.movilidad_reportedeproblemas.Models.UploadedFile;
 import itesm.mx.movilidad_reportedeproblemas.Models.Voicenote;
+import itesm.mx.movilidad_reportedeproblemas.R;
 import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.DummyLoginProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.IFileReader.FileReader;
 import itesm.mx.movilidad_reportedeproblemas.Services.IFileReader.IFileReader;

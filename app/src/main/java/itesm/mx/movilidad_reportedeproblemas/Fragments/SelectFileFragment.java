@@ -1,9 +1,8 @@
-package itesm.mx.movilidad_reportedeproblemas;
+package itesm.mx.movilidad_reportedeproblemas.Fragments;
 
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import itesm.mx.movilidad_reportedeproblemas.Activities.GenerateReportActivity;
+import itesm.mx.movilidad_reportedeproblemas.R;
 import itesm.mx.movilidad_reportedeproblemas.Services.ICommentManager.IStringManager;
 import itesm.mx.movilidad_reportedeproblemas.Services.IContainer;
 import itesm.mx.movilidad_reportedeproblemas.Services.UriPathFinder;

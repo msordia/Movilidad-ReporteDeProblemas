@@ -1,4 +1,4 @@
-package itesm.mx.movilidad_reportedeproblemas;
+package itesm.mx.movilidad_reportedeproblemas.Fragments;
 
 import android.Manifest;
 import android.content.Context;
@@ -11,6 +11,8 @@ import android.view.ViewParent;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import itesm.mx.movilidad_reportedeproblemas.Activities.GenerateReportActivity;
+import itesm.mx.movilidad_reportedeproblemas.R;
 import itesm.mx.movilidad_reportedeproblemas.Services.IAudioPlayer.AudioPlayer;
 import itesm.mx.movilidad_reportedeproblemas.Services.IAudioPlayer.IAudioPlayer;
 import itesm.mx.movilidad_reportedeproblemas.Services.IAudioRecorder.AudioRecorder;
