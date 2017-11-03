@@ -1,10 +1,13 @@
 package itesm.mx.movilidad_reportedeproblemas.Models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by juanc on 11/2/2017.
  */
 
-public class UploadedFile {
+public class UploadedFile implements Parcelable {
     private long id;
     private long reportId;
     private String name;
@@ -46,4 +49,36 @@ public class UploadedFile {
     public void setBytes(byte[] bytes) {
         this.bytes = bytes;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeLong(id);
+        parcel.writeLong(reportId);
+        parcel.writeString(name);
+        parcel.writeByteArray(bytes);
+    }
+
+    protected UploadedFile(Parcel in) {
+        id = in.readLong();
+        reportId = in.readLong();
+        name = in.readString();
+        bytes = in.createByteArray();
+    }
+
+    public static final Creator<UploadedFile> CREATOR = new Creator<UploadedFile>() {
+        @Override
+        public UploadedFile createFromParcel(Parcel in) {
+            return new UploadedFile(in);
+        }
+
+        @Override
+        public UploadedFile[] newArray(int size) {
+            return new UploadedFile[size];
+        }
+    };
 }

@@ -1,5 +1,6 @@
 package itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider;
 
+import itesm.mx.movilidad_reportedeproblemas.Models.User;
 import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.ILoginProvider;
 
 /**
@@ -7,14 +8,22 @@ import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.ILoginProvi
  */
 
 public class DummyLoginProvider implements ILoginProvider {
+    private static DummyLoginProvider _instance = new DummyLoginProvider();
+
+    public static DummyLoginProvider getInstance() {
+        return _instance;
+    }
+
+    private DummyLoginProvider() {};
+
     @Override
     public boolean login(String username, String passwrod) {
         return true;
     }
 
     @Override
-    public String getCurrentUserId() {
-        return "A01175826";
+    public User getCurrentUser() {
+        return new User("A01175826", "Juan Carlos Guzman");
     }
 
     @Override

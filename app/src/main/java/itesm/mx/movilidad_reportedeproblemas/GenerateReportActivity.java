@@ -19,7 +19,9 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import itesm.mx.movilidad_reportedeproblemas.Adapters.CategoryAdapter;
 import itesm.mx.movilidad_reportedeproblemas.Models.Category;
@@ -55,13 +57,13 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
     public static final int COMMENT_CONTAINER = 2;
 
     private ILocationService _locationService;
-    private IDatabaseProvider _db = new ListDatabaseProvider();
+    private IDatabaseProvider _db = ListDatabaseProvider.getInstance();
     private IStringManager _commentManager = new HashStringManager();
     private IByteArrayManager _bitmapManager = new HashByteArrayManager();
     private IByteArrayManager _soundManager = new HashByteArrayManager();
     private IStringManager _fileManager = new HashStringManager();
     private IFileReader _fileReader = new FileReader();
-    private ILoginProvider _loginProvider = new DummyLoginProvider();
+    private ILoginProvider _loginProvider = DummyLoginProvider.getInstance();
 
     private Spinner spinner;
     private ViewGroup vgExtras;
@@ -72,7 +74,8 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
         setContentView(R.layout.activity_generate_report);
 
         spinner = (Spinner) findViewById(R.id.spinner_generateReport);
-        CategoryAdapter adapter = new CategoryAdapter(this, (Category[])_db.getCategories().toArray());
+
+        CategoryAdapter adapter = new CategoryAdapter(this, _db.getCategories());
         spinner.setAdapter(adapter);
 
         Button btnGenerate = (Button) findViewById(R.id.button_generateReport);
@@ -89,6 +92,9 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
 
         ImageButton btnAttachFile = (ImageButton) findViewById(R.id.button_generateReport_addAtachment);
         btnAttachFile.setOnClickListener(this);
+
+        Button btnMyReports = (Button) findViewById(R.id.button_generateReport_myReports);
+        btnMyReports.setOnClickListener(this);
 
         vgExtras = (LinearLayout) findViewById(R.id.layout_generateReport_extras);
 
@@ -113,7 +119,14 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
             case R.id.button_generateReport_addAtachment:
                 selectFile();
                 break;
+            case R.id.button_generateReport_myReports:
+                showMyReports();
         }
+    }
+
+    private void showMyReports() {
+        Intent intent = new Intent(this, MyReportsActivity.class);
+        startActivity(intent);
     }
 
     private void generateReport() {
@@ -130,10 +143,12 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
         Category category = (Category) spinner.getSelectedItem();
 
         Report report = new Report();
+        report.setCategory(category);
         report.setCategoryId(category.getId());
         report.setLatitude(location.getLatitude());
         report.setLongitude(location.getLongitude());
-        report.setUserId(_loginProvider.getCurrentUserId());
+        report.setUserId(_loginProvider.getCurrentUser().getId());
+        report.setDate(new Date());
 
         Collection<Image> images = report.getImages();
         for (byte[] bytes : _bitmapManager.getByteArrays()) {
@@ -163,7 +178,17 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
 
         report.log();
 
-        _db.addReport(report);
+        long id = _db.addReport(report);
+
+        showSuccess(id);
+    }
+
+    private void showSuccess(long id) {
+        Intent intent = new Intent(this, SuccessActivity.class);
+        intent.putExtra(SuccessActivity.EXTRA_REPORT_ID, id);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
     }
 
     private void takePicture() {

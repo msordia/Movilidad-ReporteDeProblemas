@@ -1,5 +1,6 @@
 package itesm.mx.movilidad_reportedeproblemas.Services.IDatabaseProvider;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import itesm.mx.movilidad_reportedeproblemas.Models.Category;
@@ -11,12 +12,17 @@ import itesm.mx.movilidad_reportedeproblemas.Models.Report;
 
 public interface IDatabaseProvider {
     Report getReport(long id);
-    List<Report> getReports();
+    ArrayList<Report> getReports();
     boolean deleteReport(long id);
     long addReport(Report report);
 
     Category getCategory(long id);
-    List<Category> getCategories();
+    ArrayList<Category> getCategories();
     boolean deleteCategory(long id);
     long addCategory(Category cateogry);
+
+    ArrayList<Report> getReportsForUser(String userId);
+    Report getPopulatedReport(long reportId);
+
+    boolean isAdmin(String userId);
 }

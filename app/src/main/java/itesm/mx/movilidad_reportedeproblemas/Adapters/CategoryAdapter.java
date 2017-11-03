@@ -10,12 +10,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.util.List;
+
 import itesm.mx.movilidad_reportedeproblemas.Models.Category;
 import itesm.mx.movilidad_reportedeproblemas.R;
 
 public class CategoryAdapter extends ArrayAdapter<Category> {
-    public CategoryAdapter(@NonNull Context context, @NonNull Category[] objects) {
-        super(context, 0, objects);
+    public CategoryAdapter(@NonNull Context context, @NonNull List<Category> categories) {
+        super(context, 0, categories);
     }
 
     @NonNull

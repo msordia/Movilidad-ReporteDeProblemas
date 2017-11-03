@@ -1,10 +1,13 @@
 package itesm.mx.movilidad_reportedeproblemas.Models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by juanc on 11/2/2017.
  */
 
-public class Comment {
+public class Comment implements Parcelable {
     private long id;
     private long reportId;
     private String body;
@@ -36,4 +39,34 @@ public class Comment {
     public void setBody(String body) {
         this.body = body;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeLong(id);
+        parcel.writeLong(reportId);
+        parcel.writeString(body);
+    }
+
+    protected Comment(Parcel in) {
+        id = in.readLong();
+        reportId = in.readLong();
+        body = in.readString();
+    }
+
+    public static final Creator<Comment> CREATOR = new Creator<Comment>() {
+        @Override
+        public Comment createFromParcel(Parcel in) {
+            return new Comment(in);
+        }
+
+        @Override
+        public Comment[] newArray(int size) {
+            return new Comment[size];
+        }
+    };
 }

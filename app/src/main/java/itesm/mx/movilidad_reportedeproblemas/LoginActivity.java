@@ -9,22 +9,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import itesm.mx.movilidad_reportedeproblemas.Services.IDatabaseProvider.IDatabaseProvider;
+import itesm.mx.movilidad_reportedeproblemas.Services.IDatabaseProvider.ListDatabaseProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.DummyLoginProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.ILoginProvider;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
-    private ILoginProvider _loginProvider;
+    private ILoginProvider _loginProvider = DummyLoginProvider.getInstance();
+    private IDatabaseProvider _db = ListDatabaseProvider.getInstance();
 
     EditText etUser;
     EditText etPassword;
-
-    public LoginActivity() {
-        _loginProvider = new DummyLoginProvider();
-    }
-
-    public LoginActivity(ILoginProvider loginProvider){
-        _loginProvider = loginProvider;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +42,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Log.i("Login", username + " " + password + " " + result);
 
         if (result) {
-            startActivity(new Intent(this, GenerateReportActivity.class));
+            if (_db.isAdmin(username))
+                startActivity(new Intent(this, AdminHomeActivity.class));
+            else
+                startActivity(new Intent(this, GenerateReportActivity.class));
         } else {
             Toast.makeText(this, "Usuario o contraseña incorrecto", Toast.LENGTH_SHORT).show();
         }

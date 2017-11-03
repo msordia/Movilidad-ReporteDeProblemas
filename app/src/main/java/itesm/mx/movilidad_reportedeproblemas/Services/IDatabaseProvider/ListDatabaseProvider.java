@@ -3,18 +3,25 @@ package itesm.mx.movilidad_reportedeproblemas.Services.IDatabaseProvider;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import itesm.mx.movilidad_reportedeproblemas.Models.Category;
 import itesm.mx.movilidad_reportedeproblemas.Models.Report;
-import itesm.mx.movilidad_reportedeproblemas.Services.IDatabaseProvider.IDatabaseProvider;
-
-/**
- * Created by juanc on 10/31/2017.
- */
 
 public class ListDatabaseProvider implements IDatabaseProvider {
-    private List<Report> reports = new ArrayList<>();
-    private List<Category> categories = Arrays.asList(new Category[]{new Category("Categoria 0"), new Category("Categoria 1")});
+    private static ListDatabaseProvider _instance = new ListDatabaseProvider();
+
+    public static ListDatabaseProvider getInstance() {
+        return _instance;
+    }
+
+    private ListDatabaseProvider() {}
+
+    private ArrayList<Report> reports = new ArrayList<>();
+    private ArrayList<Category> categories = new ArrayList<>(Arrays.asList(new Category[] {new Category("Categoria 0"), new Category("Categoria 1")}));
+
+    private long _nextReportId;
+    private long _nextCategoryId;
 
     @Override
     public Report getReport(long id) {
@@ -26,7 +33,7 @@ public class ListDatabaseProvider implements IDatabaseProvider {
     }
 
     @Override
-    public List<Report> getReports() {
+    public ArrayList<Report> getReports() {
         return reports;
     }
 
@@ -43,6 +50,7 @@ public class ListDatabaseProvider implements IDatabaseProvider {
     @Override
     public long addReport(Report report) {
         reports.add(report);
+        report.setId(_nextReportId++);
         return report.getId();
     }
 
@@ -56,7 +64,7 @@ public class ListDatabaseProvider implements IDatabaseProvider {
     }
 
     @Override
-    public List<Category> getCategories() {
+    public ArrayList<Category> getCategories() {
         return categories;
     }
 
@@ -72,6 +80,33 @@ public class ListDatabaseProvider implements IDatabaseProvider {
     @Override
     public long addCategory(Category cateogry) {
         categories.add(cateogry);
+        cateogry.setId(_nextCategoryId++);
         return cateogry.getId();
+    }
+
+    @Override
+    public ArrayList<Report> getReportsForUser(final String userId) {
+        ArrayList<Report> selected = new ArrayList<>();
+        for (Report report : reports) {
+            if (Objects.equals(report.getUserId(), userId))
+                selected.add(report);
+        }
+        return selected;
+    }
+
+    @Override
+    public Report getPopulatedReport(long reportId) {
+        for (Report report : reports){
+            if (report.getId() == reportId)
+                return report;
+        }
+        return null;
+    }
+
+    boolean admin = true;
+    @Override
+    public boolean isAdmin(String userId) {
+        admin = !admin;
+        return admin;
     }
 }

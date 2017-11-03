@@ -9,6 +9,17 @@
         tools:context="itesm.mx.movilidad_reportedeproblemas.GenerateReportActivity"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right">
+
+            <Button android:id="@+id/button_generateReport_myReports"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ver mis reportes" />
+        </LinearLayout>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
