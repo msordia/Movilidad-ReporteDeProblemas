@@ -149,6 +149,7 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
         report.setLongitude(location.getLongitude());
         report.setUserId(_loginProvider.getCurrentUser().getId());
         report.setDate(new Date());
+        report.setStatus(Report.STATUS_PENDING);
 
         Collection<Image> images = report.getImages();
         for (byte[] bytes : _bitmapManager.getByteArrays()) {

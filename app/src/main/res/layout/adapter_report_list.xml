@@ -5,6 +5,11 @@
     android:orientation="horizontal"
     android:background="@drawable/border" >
 
+    <ImageView android:id="@+id/image_reportListAdapter_status"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/in_process"/>
+
     <TextView android:id="@+id/text_reportListAdapter_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

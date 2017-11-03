@@ -4,21 +4,17 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
-import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
-import java.util.List;
-
-/**
- * Created by juanc on 10/31/2017.
- */
 
 public class Report implements Parcelable {
+    public static final int STATUS_PENDING = 1;
+    public static final int STATUS_IN_PROCESS = 2;
+    public static final int STATUS_SUCCESS = 3;
+    public static final int STATUS_FAILURE = 4;
+
     private long id;
     private long categoryId;
     private String userId;
@@ -30,6 +26,7 @@ public class Report implements Parcelable {
     private double latitude;
     private Date date;
     private Category category;
+    private int status;
 
     public Report() {};
 
@@ -105,6 +102,14 @@ public class Report implements Parcelable {
         this.category = category;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     public void log() {
         Log.i("LogReport", "Report " + getId() + ", User: " + getUserId());
         Log.i("LogReport", getDate().toString());
@@ -150,6 +155,7 @@ public class Report implements Parcelable {
         parcel.writeTypedList(voicenotes);
         parcel.writeTypedList(images);
         parcel.writeTypedList(files);
+        parcel.writeInt(status);
     }
 
     protected Report(Parcel in) {
@@ -170,6 +176,7 @@ public class Report implements Parcelable {
         in.readTypedList(voicenotes, Voicenote.CREATOR);
         in.readTypedList(images, Image.CREATOR);
         in.readTypedList(files, UploadedFile.CREATOR);
+        status = in.readInt();
 
     }
 

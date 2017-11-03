@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -39,6 +40,18 @@ public class ReportAdapter extends ArrayAdapter<Report> {
         tvId.setText(Long.toString(report.getId()));
         tvDate.setText(report.getDate().toString());
         tvCategory.setText(report.getCategory().getName());
+
+        ImageView ivStatus = convertView.findViewById(R.id.image_reportListAdapter_status);
+        switch (report.getStatus()) {
+            case Report.STATUS_PENDING:
+                ivStatus.setImageResource(R.drawable.pending); break;
+            case Report.STATUS_IN_PROCESS:
+                ivStatus.setImageResource(R.drawable.in_process); break;
+            case Report.STATUS_SUCCESS:
+                ivStatus.setImageResource(R.drawable.success); break;
+            case Report.STATUS_FAILURE:
+                ivStatus.setImageResource(R.drawable.failure); break;
+        }
 
         return convertView;
     }
