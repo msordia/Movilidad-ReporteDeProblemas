@@ -30,4 +30,9 @@ public class DummyLoginProvider implements ILoginProvider {
     public void logout() {
 
     }
+
+    @Override
+    public User getUser(String userId)  {
+        return new User("A01175826", "Juan Carlos Guzman");
+    }
 }

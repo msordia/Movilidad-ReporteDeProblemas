@@ -1,13 +1,16 @@
 package itesm.mx.movilidad_reportedeproblemas.Fragments;
 
 import android.app.ListFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import itesm.mx.movilidad_reportedeproblemas.Activities.ReportDetailActivity;
 import itesm.mx.movilidad_reportedeproblemas.Adapters.ReportAdapter;
 import itesm.mx.movilidad_reportedeproblemas.Models.Report;
 import itesm.mx.movilidad_reportedeproblemas.R;
@@ -45,5 +48,13 @@ public class ReportListFragment extends ListFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_report_list, container, false);
+    }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        Report report = (Report) getListAdapter().getItem(position);
+        Intent intent = new Intent(getActivity(), ReportDetailActivity.class);
+        intent.putExtra(ReportDetailActivity.EXTRA_REPORT, report);
+        startActivity(intent);
     }
 }

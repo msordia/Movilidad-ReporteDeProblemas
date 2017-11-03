@@ -31,7 +31,7 @@
                     android:layout_height="wrap_content"
                     android:text="Usuario:"/>
 
-                <TextView
+                <TextView android:id="@+id/text_reportDetail_user"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Eso"
@@ -50,7 +50,7 @@
                     android:layout_height="wrap_content"
                     android:text="Fecha:"/>
 
-                <TextView
+                <TextView android:id="@+id/text_reportDetail_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Eso"
@@ -69,7 +69,7 @@
                     android:layout_height="wrap_content"
                     android:text="Estatus:"/>
 
-                <TextView
+                <TextView android:id="@+id/text_reportDetail_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Eso"
@@ -88,7 +88,7 @@
                     android:layout_height="wrap_content"
                     android:text="Categoria:"/>
 
-                <TextView
+                <TextView android:id="@+id/text_reportDetail_category"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Eso"
@@ -96,7 +96,19 @@
                     android:textAlignment="textEnd"/>
             </LinearLayout>
 
-        </LinearLayout>
+            <Button android:id="@+id/button_reportDetail_updateStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Actualizar estatus"
+                android:enabled="false"/>
 
+            <LinearLayout android:id="@+id/layout_reportDetail_extras"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+        </LinearLayout>
     </ScrollView>
 </LinearLayout>

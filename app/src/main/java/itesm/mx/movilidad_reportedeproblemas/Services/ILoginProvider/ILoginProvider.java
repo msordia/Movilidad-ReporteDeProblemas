@@ -10,4 +10,5 @@ public interface ILoginProvider {
     boolean login(String username, String passwrod);
     User getCurrentUser();
     void logout();
+    User getUser(String userId);
 }
