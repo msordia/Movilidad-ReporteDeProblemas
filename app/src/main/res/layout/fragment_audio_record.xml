@@ -5,7 +5,8 @@
     tools:context="itesm.mx.movilidad_reportedeproblemas.AudioRecordFragment"
     android:layout_margin="10dp"
     android:orientation="horizontal"
-    android:layout_gravity="center">
+    android:layout_gravity="center"
+    android:background="@drawable/border">
     
     <ImageView
         android:layout_width="30dp"
