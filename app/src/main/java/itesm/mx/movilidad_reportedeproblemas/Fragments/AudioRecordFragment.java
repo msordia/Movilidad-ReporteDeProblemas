@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import itesm.mx.movilidad_reportedeproblemas.Activities.GenerateReportActivity;
 import itesm.mx.movilidad_reportedeproblemas.R;
+import itesm.mx.movilidad_reportedeproblemas.Services.AudioDurationFinder;
 import itesm.mx.movilidad_reportedeproblemas.Services.IAudioPlayer.AudioPlayer;
 import itesm.mx.movilidad_reportedeproblemas.Services.IAudioPlayer.IAudioPlayer;
 import itesm.mx.movilidad_reportedeproblemas.Services.IAudioRecorder.AudioRecorder;
@@ -74,11 +75,7 @@ public class AudioRecordFragment extends android.app.Fragment {
                     _bytes = bytes;
                     _byteArrayManager.addByteArray(_bytes);
 
-                    double durationSeconds = _bytes.length / 8000.0 / 2;
-                    int minutes = (int) durationSeconds / 60;
-                    double seconds = durationSeconds - minutes * 60;
-
-                    tvDuration.setText(String.format("%d:%05.2f", minutes, seconds));
+                    tvDuration.setText(AudioDurationFinder.getDurationString(bytes.length));
 
                     btnRecord.setImageResource(R.drawable.record);
                     btnPlay.setEnabled(true);

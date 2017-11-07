@@ -1,0 +1,38 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="itesm.mx.movilidad_reportedeproblemas.Fragments.PlayAudioFragment"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:layout_margin="10dp"
+    android:background="@drawable/border">
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/microphone"
+        android:background="@android:color/transparent"
+        android:layout_margin="10dp"/>
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="fill_parent"
+        android:background="#CCCCCC" />
+
+    <ImageButton android:id="@+id/button_playAudio_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/play"
+        android:background="@android:color/transparent"
+        android:layout_margin="10dp"/>
+
+    <TextView android:id="@+id/text_playAudio_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0:00"
+        android:layout_weight="1"
+        android:textSize="12pt"
+        android:layout_margin="10dp"/>
+
+</LinearLayout>

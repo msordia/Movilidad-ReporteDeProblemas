@@ -18,15 +18,16 @@ public class Report implements Parcelable {
     private long id;
     private long categoryId;
     private String userId;
+    private double longitude;
+    private double latitude;
+    private Date date;
+    private int status;
+
     private ArrayList<Comment> comments = new ArrayList<>();
     private ArrayList<Image> images = new ArrayList<>();
     private ArrayList<Voicenote> voicenotes = new ArrayList<>();
     private ArrayList<UploadedFile> files = new ArrayList<>();
-    private double longitude;
-    private double latitude;
-    private Date date;
     private Category category;
-    private int status;
 
     public Report() {};
 

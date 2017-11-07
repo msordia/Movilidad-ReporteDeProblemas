@@ -1,5 +1,6 @@
 package itesm.mx.movilidad_reportedeproblemas.Activities;
 
+import android.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,9 +8,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import itesm.mx.movilidad_reportedeproblemas.Fragments.PlayAudioFragment;
 import itesm.mx.movilidad_reportedeproblemas.Fragments.ViewCommentFragment;
 import itesm.mx.movilidad_reportedeproblemas.Models.Comment;
 import itesm.mx.movilidad_reportedeproblemas.Models.Report;
+import itesm.mx.movilidad_reportedeproblemas.Models.Voicenote;
 import itesm.mx.movilidad_reportedeproblemas.R;
 import itesm.mx.movilidad_reportedeproblemas.Services.IDatabaseProvider.IDatabaseProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.IDatabaseProvider.ListDatabaseProvider;
@@ -54,10 +57,19 @@ public class ReportDetailActivity extends AppCompatActivity {
         tvDate.setText(_report.getDate().toString());
 
         android.app.FragmentManager manager = getFragmentManager();
+
         for (Comment comment : _report.getComments()) {
-            manager.beginTransaction()
-                    .add(vgExtras.getId(), ViewCommentFragment.newInstance(comment))
-                    .commit();
+            addExtraFragment(manager, ViewCommentFragment.newInstance(comment));
         }
+
+        for (Voicenote voicenote : _report.getVoicenotes()) {
+            addExtraFragment(manager, PlayAudioFragment.newInstance(voicenote));
+        }
+    }
+
+    private void addExtraFragment(android.app.FragmentManager manager, Fragment fragment) {
+        manager.beginTransaction()
+                .add(vgExtras.getId(), fragment)
+                .commit();
     }
 }
