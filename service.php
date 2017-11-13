@@ -125,7 +125,7 @@ if(isset($_GET['action'])) {
 				$user = $_GET['userId'];
 				$query = "SELECT COUNT(*) FROM admin where id = '$user'";
 				$nRows = $db->query($query)->fetchColumn();
-				echo json_encode(array('isAdmin', $nRows > 0));
+				echo json_encode(array('isAdmin'=>$nRows > 0));
 				break;
 
 			case "makeAdmin":
@@ -147,6 +147,153 @@ if(isset($_GET['action'])) {
 				$result = $db->exec($query);
 				header('Content-type: application/json');
 				echo json_encode(array('rows'=>$result));
+				break;
+
+			case "commentsForReport":
+				$report = $_GET['reportId'];
+				$query = "SELECT * FROM comment where reportId = '$report'";
+				$result = $db->query($query);
+				if (!$result) {
+					die(print_r($db->errorInfo()));
+				}
+				$result = $result->fetchAll(PDO::FETCH_ASSOC);
+				$comments = array();
+				foreach ($result as $comment) {
+					$comments[] = array('comment'=>$comment);
+				 } 
+				header('Content-type: application/json');
+				echo json_encode(array('comments'=>$comments));
+				break;
+
+			case "voicenotesForReport":
+				$report = $_GET['reportId'];
+				$query = "SELECT * FROM voicenote where reportId = '$report'";
+				$result = $db->query($query);
+				if (!$result) {
+					die(print_r($db->errorInfo()));
+				}
+				$result = $result->fetchAll(PDO::FETCH_ASSOC);
+				$voicenotes = array();
+				foreach ($result as $voicenote) {
+					$voicenotes[] = array('voicenote'=>$voicenote);
+				 } 
+				header('Content-type: application/json');
+				echo json_encode(array('voicenotes'=>$voicenotes));
+				break;
+
+			case "imagesForReport":
+				$report = $_GET['reportId'];
+				$query = "SELECT * FROM image where reportId = '$report'";
+				$result = $db->query($query);
+				if (!$result) {
+					die(print_r($db->errorInfo()));
+				}
+				$result = $result->fetchAll(PDO::FETCH_ASSOC);
+				$images = array();
+				foreach ($result as $image) {
+					$images[] = array('image'=>$image);
+				 } 
+				header('Content-type: application/json');
+				echo json_encode(array('images'=>$image));
+				break;
+
+			case "filesForReport":
+				$report = $_GET['reportId'];
+				$query = "SELECT id, reportId, bytes FROM file where reportId = '$report'";
+				$result = $db->query($query);
+				if (!$result) {
+					die(print_r($db->errorInfo()));
+				}
+				$result = $result->fetchAll(PDO::FETCH_ASSOC);
+				$files = array();
+				foreach ($result as $file) {
+					$files[] = array('file'=>$file);
+				 } 
+				header('Content-type: application/json');
+				echo json_encode(array('files'=>$files));
+				break;
+
+			case "addComment":
+				$reportId = $_GET['reportId'];
+				$body = $_GET['body'];
+				$query = "INSERT INTO `comment`(`reportId`, `body`) VALUES ($reportId,'$body')";
+				$result = $db->exec($query);
+				header('Content-type: application/json');
+				if ($result == 0)
+				{
+					echo -1;
+					break;
+				}
+				echo json_encode(array('id'=>$db->lastInsertId()));
+				break;
+
+			case "addImage":
+				$reportId = $_GET['reportId'];
+				$bytes = $_GET['bytes'];
+				$query = "INSERT INTO `image`(`reportId`, `bytes`) VALUES ($reportId,'$bytes')";
+				$result = $db->exec($query);
+				header('Content-type: application/json');
+				if ($result == 0)
+				{
+					echo -1;
+					break;
+				}
+				echo json_encode(array('id'=>$db->lastInsertId()));
+				break;
+
+			case "addVoicenote":
+				$reportId = $_GET["reportId"];
+				$bytes = $_GET['bytes'];
+				$query = "INSERT INTO `voicenote`(`reportId`, `bytes`) VALUES ($reportId,'$bytes')";
+				$result = $db->exec($query);
+				header('Content-type: application/json');
+				if ($result == 0)
+				{
+					echo -1;
+					break;
+				}
+				echo json_encode(array('id'=>$db->lastInsertId()));
+				break;
+
+			case "addFile":
+				$reportId = $_GET["reportId"];
+				$bytes = $_GET['bytes'];
+				$name = $_GET['name'];
+				$query = "INSERT INTO `file`(`reportId`, `bytes`, `name`) VALUES ($reportId,'$bytes', '$name')";
+				$result = $db->exec($query);
+				header('Content-type: application/json');
+				if ($result == 0)
+				{
+					echo -1;
+					break;
+				}
+				echo json_encode(array('id'=>$db->lastInsertId()));
+				break;
+
+			case "getFile":
+				$id = $_GET['id'];
+				$query = "SELECT * FROM file where id = $id";
+				$result = $db->query($query);
+				if (!$result) {
+					die(print_r($db->errorInfo()));
+				}
+				$result = $result->fetchAll(PDO::FETCH_ASSOC);
+				header('Content-type: application/json');
+				echo json_encode(array('file'=>$result[0]));
+				break;
+				
+			case "updateStatus":
+				$id = $_GET['id'];
+				$status = $_GET['status'];
+				$query = "UPDATE report set status = $status where id = $id";
+				$result = $db->exec($query);
+				header('Content-type: application/json');
+				if ($result == 0)
+				{
+					echo -1;
+				} else {
+					echo 1;
+				}
 				break;
 		}
 	} catch (PDOException $e) {

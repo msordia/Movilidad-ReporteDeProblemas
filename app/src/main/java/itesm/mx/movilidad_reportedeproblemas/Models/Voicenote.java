@@ -16,6 +16,8 @@ public class Voicenote implements Parcelable {
         this.bytes = bytes;
     }
 
+    public Voicenote(){};
+
     public long getId() {
         return id;
     }

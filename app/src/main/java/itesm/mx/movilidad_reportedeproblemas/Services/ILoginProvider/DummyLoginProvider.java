@@ -16,23 +16,21 @@ public class DummyLoginProvider implements ILoginProvider {
 
     private DummyLoginProvider() {};
 
+    String user;
+
     @Override
-    public boolean login(String username, String passwrod) {
-        return true;
+    public void login(String username, String password, ILoginHandler handler) {
+        user = username;
+        handler.handle(username, password, true);
     }
 
     @Override
     public User getCurrentUser() {
-        return new User("A01175826", "Juan Carlos Guzman");
+        return new User(user, user);
     }
 
     @Override
     public void logout() {
-
-    }
-
-    @Override
-    public User getUser(String userId)  {
-        return new User("A01175826", "Juan Carlos Guzman");
+        user = "";
     }
 }

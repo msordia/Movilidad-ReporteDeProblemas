@@ -1,5 +1,7 @@
 package itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider;
 
+import android.content.Context;
+
 import itesm.mx.movilidad_reportedeproblemas.Models.User;
 
 /**
@@ -7,8 +9,13 @@ import itesm.mx.movilidad_reportedeproblemas.Models.User;
  */
 
 public interface ILoginProvider {
-    boolean login(String username, String passwrod);
+    void login(String username, String password, ILoginHandler handler);
     User getCurrentUser();
     void logout();
-    User getUser(String userId);
+
+    public interface ILoginHandler {
+        void handle(String username, String name, boolean result);
+        Context getContext();
+    }
+
 }

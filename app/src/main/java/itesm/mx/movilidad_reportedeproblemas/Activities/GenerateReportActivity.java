@@ -19,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -34,6 +35,7 @@ import itesm.mx.movilidad_reportedeproblemas.Models.Report;
 import itesm.mx.movilidad_reportedeproblemas.Models.UploadedFile;
 import itesm.mx.movilidad_reportedeproblemas.Models.Voicenote;
 import itesm.mx.movilidad_reportedeproblemas.R;
+import itesm.mx.movilidad_reportedeproblemas.Services.IDatabaseProvider.WebDatabaseProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.DummyLoginProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.IFileReader.FileReader;
 import itesm.mx.movilidad_reportedeproblemas.Services.IFileReader.IFileReader;
@@ -47,7 +49,6 @@ import itesm.mx.movilidad_reportedeproblemas.Services.IContainer;
 import itesm.mx.movilidad_reportedeproblemas.Services.IDatabaseProvider.IDatabaseProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.ILocationService.ILocationService;
 import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.ILoginProvider;
-import itesm.mx.movilidad_reportedeproblemas.Services.IDatabaseProvider.ListDatabaseProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.PermissionChecker;
 import itesm.mx.movilidad_reportedeproblemas.Services.UriPathFinder;
 
@@ -61,7 +62,7 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
     public static final int COMMENT_CONTAINER = 2;
 
     private ILocationService _locationService;
-    private IDatabaseProvider _db = ListDatabaseProvider.getInstance();
+    private IDatabaseProvider _db = new WebDatabaseProvider();
     private IStringManager _commentManager = new HashStringManager();
     private IByteArrayManager _bitmapManager = new HashByteArrayManager();
     private IByteArrayManager _soundManager = new HashByteArrayManager();
@@ -69,8 +70,11 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
     private IFileReader _fileReader = new FileReader();
     private ILoginProvider _loginProvider = DummyLoginProvider.getInstance();
 
+    private GenerateReportActivity self = this;
+
     private Spinner spinner;
     private ViewGroup vgExtras;
+    private Button btnGenerate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,10 +83,15 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
 
         spinner = (Spinner) findViewById(R.id.spinner_generateReport);
 
-        CategoryAdapter adapter = new CategoryAdapter(this, _db.getCategories());
-        spinner.setAdapter(adapter);
+        _db.getCategories(new IDatabaseProvider.IDbHandler<ArrayList<Category>>() {
+            @Override
+            public void handle(ArrayList<Category> result) {
+                CategoryAdapter adapter = new CategoryAdapter(self, result);
+                spinner.setAdapter(adapter);
+            }
+        });
 
-        Button btnGenerate = (Button) findViewById(R.id.button_generateReport);
+        btnGenerate = (Button) findViewById(R.id.button_generateReport);
         btnGenerate.setOnClickListener(this);
 
         ImageButton btnTakePhoto = (ImageButton) findViewById(R.id.button_generateReport_photo);
@@ -183,9 +192,14 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
 
         report.log();
 
-        long id = _db.addReport(report);
-
-        showSuccess(id);
+        btnGenerate.setEnabled(false);
+        _db.addReport(report, new IDatabaseProvider.IDbHandler<Long>() {
+            @Override
+            public void handle(Long result) {
+                btnGenerate.setEnabled(true);
+                showSuccess(result);
+            }
+        });
     }
 
     private void showSuccess(long id) {
@@ -274,4 +288,6 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
         }
         return null;
     }
+
+
 }

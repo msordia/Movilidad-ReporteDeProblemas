@@ -96,11 +96,11 @@
                     android:textAlignment="textEnd"/>
             </LinearLayout>
 
-            <Button android:id="@+id/button_reportDetail_updateStatus"
+            <LinearLayout android:id="@+id/layout_updateStatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Actualizar estatus"
-                android:enabled="false"/>
+                android:orientation="horizontal">
+            </LinearLayout>
 
             <LinearLayout android:id="@+id/layout_reportDetail_extras"
                 android:layout_width="match_parent"

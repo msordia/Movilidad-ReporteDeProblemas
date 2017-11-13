@@ -26,6 +26,5 @@ public class AdminHomeActivity extends AppCompatActivity {
         btnHistory = (Button) findViewById(R.id.button_adminHome_history);
 
         tvName.setText(_loginProvider.getCurrentUser().getName());
-
     }
 }

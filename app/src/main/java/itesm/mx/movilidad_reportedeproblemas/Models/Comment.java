@@ -15,6 +15,7 @@ public class Comment implements Parcelable {
     public Comment(String body) {
         this.body = body;
     }
+    public Comment() {}
 
     public long getId() {
         return id;
