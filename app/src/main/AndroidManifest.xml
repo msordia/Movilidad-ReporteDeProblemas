@@ -36,7 +36,8 @@
         <activity android:name=".Activities.AdminHomeActivity" />
         <activity android:name=".Activities.MyReportsActivity" />
         <activity android:name=".Activities.ReportDetailActivity" />
-        <activity android:name=".Activities.AdminReportListActivity"></activity>
+        <activity android:name=".Activities.AdminReportListActivity" />
+        <activity android:name=".Activities.ManageAdminsActivity"></activity>
     </application>
 
 </manifest>

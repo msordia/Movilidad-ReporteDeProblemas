@@ -265,10 +265,10 @@ public class WebDatabaseProvider implements IDatabaseProvider {
     }
 
     @Override
-    public void addCategory(Category cateogry, final IDbHandler<Long> handler) {
+    public void addCategory(Category category, final IDbHandler<Long> handler) {
         Uri.Builder builder = baseBuilder()
                 .appendQueryParameter("action", ADD_CATEGORY)
-                .appendQueryParameter("userId", cateogry.getName());
+                .appendQueryParameter("name", category.getName());
         String url = builder.build().toString();
 
         _reader.getWebsiteContent(url, new IWebsiteReader.IWebsiteHandler() {
