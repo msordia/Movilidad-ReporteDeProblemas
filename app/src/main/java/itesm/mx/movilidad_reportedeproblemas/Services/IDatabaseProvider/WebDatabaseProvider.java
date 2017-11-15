@@ -1,16 +1,24 @@
 package itesm.mx.movilidad_reportedeproblemas.Services.IDatabaseProvider;
 
 import android.net.Uri;
-import android.speech.tts.Voice;
 import android.util.Log;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
+import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.concurrent.Semaphore;
 
 import itesm.mx.movilidad_reportedeproblemas.Models.Category;
 import itesm.mx.movilidad_reportedeproblemas.Models.Comment;
@@ -125,60 +133,61 @@ public class WebDatabaseProvider implements IDatabaseProvider {
 
     @Override
     public void addReport(final Report report, final IDbHandler<Long> handler) {
-        Uri.Builder builder = baseBuilder()
-                .appendQueryParameter("action", ADD_REPORT)
-                .appendQueryParameter("userId", report.getUserId())
-                .appendQueryParameter("categoryId", Long.toString(report.getCategoryId()))
-                .appendQueryParameter("longitude", Double.toString(report.getLongitude()))
-                .appendQueryParameter("latitude", Double.toString(report.getLatitude()))
-                .appendQueryParameter("status", Integer.toString(report.getStatus()));
-        String url = builder.build().toString();
 
-        _reader.getWebsiteContent(url, new IWebsiteReader.IWebsiteHandler() {
+        HttpClient client = new DefaultHttpClient();
+        HttpPost post = new HttpPost("http://" + BASE_URL);
+
+        MultipartEntityBuilder entityBuilder = MultipartEntityBuilder.create();
+        entityBuilder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+
+        entityBuilder.addTextBody("action", ADD_REPORT);
+        entityBuilder.addTextBody("userId", report.getUserId());
+        entityBuilder.addTextBody("categoryId", Long.toString(report.getCategoryId()));
+        entityBuilder.addTextBody("longitude", Double.toString(report.getLongitude()));
+        entityBuilder.addTextBody("latitude", Double.toString(report.getLatitude()));
+        entityBuilder.addTextBody("status", Integer.toString(report.getStatus()));
+
+
+        ArrayList<UploadedFile> files = report.getFiles();
+        ArrayList<Image> images = report.getImages();
+        ArrayList<Voicenote> voicenotes = report.getVoicenotes();
+        ArrayList<Comment> comments = report.getComments();
+
+        for (UploadedFile file : files){
+            entityBuilder.addBinaryBody("fil_" + file.getName(), file.getBytes());
+        }
+
+        int count = 0;
+        for (Image image : images) {
+            entityBuilder.addBinaryBody("img_" + Integer.toString(count), image.getBytes());
+            count++;
+        }
+
+        count = 0;
+        for (Voicenote voicenote : voicenotes) {
+            entityBuilder.addBinaryBody("vcn_" + Integer.toString(count), voicenote.getBytes());
+            count++;
+        }
+
+        for (Comment comment : comments) {
+            entityBuilder.addTextBody("comments[]", comment.getBody());
+        }
+
+        HttpEntity entity = entityBuilder.build();
+        post.setEntity(entity);
+        _reader.executePost(client, post, new IWebsiteReader.IWebsiteHandler() {
             @Override
             public void handle(String json) {
+                Log.i("addReport", json);
+                long id = -1;
                 try {
                     JSONObject obj = new JSONObject(json);
-                    Long id = obj.getLong("id");
-
-                    ArrayList<Comment> comments = report.getComments();
-                    ArrayList<UploadedFile> files = report.getFiles();
-                    ArrayList<Image> images = report.getImages();
-                    ArrayList<Voicenote> voicenotes = report.getVoicenotes();
-
-                    IDbHandler<Long> dummyHandler = new IDbHandler<Long>() {
-                        @Override
-                        public void handle(Long result) {
-
-                        }
-                    };
-
-
-                    for (Comment comment : report.getComments()){
-                        comment.setReportId(id);
-                        addComment(comment, dummyHandler);
-                    }
-                    /*
-                    for (UploadedFile file : report.getFiles()){
-                        file.setReportId(id);
-                        addFile(file, dummyHandler);
-                    }
-                    for (Image image : report.getImages()){
-                        image.setReportId(id);
-                        addImage(image, dummyHandler);
-                    }
-                    for (Voicenote voicenote : report.getVoicenotes()){
-                        voicenote.setReportId(id);
-                        addVoicenote(voicenote, dummyHandler);
-                    }
-                    */
-
-                    handler.handle(id);
-                } catch (Exception e) {
-                    Log.e("addReport", e.toString());
+                    id = obj.getLong("id");
+                } catch (JSONException e) {
                     e.printStackTrace();
-                    handler.handle((long) -1);
                 }
+
+                handler.handle(id);
             }
         });
     }
