@@ -12,6 +12,16 @@ public class Voicenote implements Parcelable {
     private long reportId;
     private byte[] bytes;
 
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public Voicenote(byte[] bytes) {
         this.bytes = bytes;
     }

@@ -4,19 +4,15 @@ import android.net.Uri;
 import android.util.Log;
 
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -28,6 +24,8 @@ import itesm.mx.movilidad_reportedeproblemas.Models.UploadedFile;
 import itesm.mx.movilidad_reportedeproblemas.Models.Voicenote;
 import itesm.mx.movilidad_reportedeproblemas.Services.IJsonParser.FileJsonParser;
 import itesm.mx.movilidad_reportedeproblemas.Services.IJsonParser.IJsonParser;
+import itesm.mx.movilidad_reportedeproblemas.Services.IJsonParser.ImageJsonParser;
+import itesm.mx.movilidad_reportedeproblemas.Services.IJsonParser.VoicenoteJsonParser;
 import itesm.mx.movilidad_reportedeproblemas.Services.IWebsiteReader.IWebsiteReader;
 import itesm.mx.movilidad_reportedeproblemas.Services.IWebsiteReader.WebsiteReader;
 import itesm.mx.movilidad_reportedeproblemas.Services.IJsonParser.CategoryJsonParser;
@@ -59,8 +57,8 @@ public class WebDatabaseProvider implements IDatabaseProvider {
     private IJsonParser<Category> _categoryParser = new CategoryJsonParser();
     private IJsonParser<Comment> _commentParser = new CommentJsonParser();
     private IJsonParser<UploadedFile> _fileParser = new FileJsonParser();
-    private IJsonParser<Image> _imageParser;
-    private IJsonParser<Voicenote> _voicenoteParser;
+    private IJsonParser<Image> _imageParser = new ImageJsonParser();
+    private IJsonParser<Voicenote> _voicenoteParser = new VoicenoteJsonParser();
 
     private Uri.Builder baseBuilder() {
         return new Uri.Builder().path(BASE_URL).scheme("http");
@@ -138,7 +136,6 @@ public class WebDatabaseProvider implements IDatabaseProvider {
         HttpPost post = new HttpPost("http://" + BASE_URL);
 
         MultipartEntityBuilder entityBuilder = MultipartEntityBuilder.create();
-        entityBuilder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 
         entityBuilder.addTextBody("action", ADD_REPORT);
         entityBuilder.addTextBody("userId", report.getUserId());
@@ -153,19 +150,21 @@ public class WebDatabaseProvider implements IDatabaseProvider {
         ArrayList<Voicenote> voicenotes = report.getVoicenotes();
         ArrayList<Comment> comments = report.getComments();
 
+        int count = 0;
         for (UploadedFile file : files){
-            entityBuilder.addBinaryBody("fil_" + file.getName(), file.getBytes());
+            entityBuilder.addBinaryBody("files[]", file.getBytes(), ContentType.APPLICATION_OCTET_STREAM, file.getName());
+            count++;
         }
 
-        int count = 0;
+        count = 0;
         for (Image image : images) {
-            entityBuilder.addBinaryBody("img_" + Integer.toString(count), image.getBytes());
+            entityBuilder.addBinaryBody("images[]", image.getBytes(), ContentType.APPLICATION_OCTET_STREAM, "image_" + Integer.toString(count) + ".jpg");
             count++;
         }
 
         count = 0;
         for (Voicenote voicenote : voicenotes) {
-            entityBuilder.addBinaryBody("vcn_" + Integer.toString(count), voicenote.getBytes());
+            entityBuilder.addBinaryBody("voicenotes[]", voicenote.getBytes(), ContentType.APPLICATION_OCTET_STREAM, "voicenote_" + Integer.toString(count));
             count++;
         }
 

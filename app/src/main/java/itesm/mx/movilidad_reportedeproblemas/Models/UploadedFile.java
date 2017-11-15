@@ -18,6 +18,8 @@ public class UploadedFile implements Parcelable {
         this.bytes = bytes;
     }
 
+    public UploadedFile() {}
+
     public long getId() {
         return id;
     }

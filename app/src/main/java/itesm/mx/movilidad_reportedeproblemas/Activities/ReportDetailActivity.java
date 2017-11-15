@@ -25,6 +25,7 @@ import itesm.mx.movilidad_reportedeproblemas.Services.IDatabaseProvider.WebDatab
 import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.DummyLoginProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.ILoginProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.StatusParser;
+import itesm.mx.movilidad_reportedeproblemas.Services.WebFileReader;
 
 public class ReportDetailActivity extends AppCompatActivity implements IContainer{
     public final static String EXTRA_REPORT = "report";
@@ -90,9 +91,16 @@ public class ReportDetailActivity extends AppCompatActivity implements IContaine
         _db.getVoicenotesForReport(_report.getId(), new IDatabaseProvider.IDbHandler<ArrayList<Voicenote>>() {
             @Override
             public void handle(ArrayList<Voicenote> voicenotes) {
-                for (Voicenote voicenote : voicenotes) {
-                    addExtraFragment(manager, PlayAudioFragment.newInstance(voicenote));
-                }
+            for (final Voicenote voicenote : voicenotes) {
+                String url = WebFileReader.BASE_URL + WebFileReader.DIR_VOICENOTE + voicenote.getName();
+                WebFileReader.readFile(url, new WebFileReader.WebFileHandler() {
+                    @Override
+                    public void handle(byte[] bytes) {
+                        voicenote.setBytes(bytes);
+                        addExtraFragment(manager, PlayAudioFragment.newInstance(voicenote));
+                    }
+                });
+            }
             }
         });
     }

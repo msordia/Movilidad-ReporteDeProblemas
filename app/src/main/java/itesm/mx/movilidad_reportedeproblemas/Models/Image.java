@@ -12,6 +12,18 @@ public class Image implements Parcelable {
     private long reportId;
     private byte[] bytes;
 
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Image() {}
+
     public Image(byte[] bytes) {
         this.bytes = bytes;
     }

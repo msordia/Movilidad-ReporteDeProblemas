@@ -73,7 +73,6 @@ if(isset($_GET['action']) || isset($_POST['action'])) {
 				$reportId = $db->lastInsertId();
 				
 				echo json_encode(array('id'=>$reportId));
-				//echo $query;
 				
 				$comments = $_POST['comments'];
 				$query = "INSERT INTO comment (reportId, body) VALUES ";
@@ -83,49 +82,54 @@ if(isset($_GET['action']) || isset($_POST['action'])) {
 				$query = rtrim($query,",");
 				$result = $db->exec($query);
 				
-				
-				$images = array();
-				$files = array();
-				$voicenotes = array();
-				if ($_FILES['upload']) {
-					$file_ary = reArrayFiles($_FILES['ufile']);
+				if ($_FILES['images']) {
+					$images = array();
+					$file_ary = reArrayFiles($_FILES['images']);
+					$query = "INSERT INTO image (reportId, name) VALUES ";
 					foreach ($file_ary as $file) {
 						$tmp_name = $file["tmp_name"];
-						$name = $file["name"];
+						$name = $reportId . "_" . $file["name"];
 						
-						$type = substr($name,0,3);
-						if ($type == "img") {
-							array_push($images, $name);
-						} else if ($type == "fil") {
-							array_push($files, $name);
-						} else if ($type == "vcn") {
-							array_push($voicenotes, $name);
-						}
-
-						move_uploaded_file($tmp_name, "/uploads/$reportId_$name");
+						array_push($images, $name);
+						move_uploaded_file($tmp_name, "./images/$name");
+						$query = $query . "($reportId, '$name'),";
 					}
+					$query = rtrim($query,',');
+					$db->exec($query);
 				}
 				
-				$query = "INSERT INTO file (reportId, name) VALUES ";
-				foreach ($files as $file) {
-					$query = $query . "($reportId, $file),";
+				if ($_FILES['files']) {
+					$files = array();
+					$file_ary = reArrayFiles($_FILES['files']);
+					$query = "INSERT INTO file (reportId, name) VALUES ";
+					foreach ($file_ary as $file) {
+						$tmp_name = $file["tmp_name"];
+						$name = $reportId . "_" . $file["name"];
+						
+						array_push($files, $name);
+						move_uploaded_file($tmp_name, "./files/$name");
+						$query = $query . "($reportId, '$name'),";
+					}
+					$query = rtrim($query,',');
+					$db->exec($query);
 				}
-				$query = rtrim($query,',');
-				$db->exec($query);
 				
-				$query = "INSERT INTO voicenote (reportId, name) VALUES ";
-				foreach ($voicenotes as $voicenote) {
-					$query = $query . "($reportId, $voicenote),";
+				if ($_FILES['voicenotes']) {
+					$voicenotes = array();
+					$file_ary = reArrayFiles($_FILES['voicenotes']);
+					$query = "INSERT INTO voicenote (reportId, name) VALUES ";
+					foreach ($file_ary as $file) {
+						$tmp_name = $file["tmp_name"];
+						$name = $reportId . "_" . $file["name"];
+						
+						array_push($voicenotes, $name);
+						move_uploaded_file($tmp_name, "./voicenotes/$name");
+						$query = $query . "($reportId, '$name'),";
+					}
+					$query = rtrim($query,',');
+					$db->exec($query);
 				}
-				$query = rtrim($query,',');
-				$db->exec($query);
 				
-				$query = "INSERT INTO image (reportId, name) VALUES ";
-				foreach ($images as $image) {
-					$query = $query . "($reportId, $image),";
-				}
-				$query = rtrim($query,',');
-				$db->exec($query);
 				break;
 
 			case "getCategories":
@@ -340,18 +344,6 @@ if(isset($_GET['action']) || isset($_POST['action'])) {
 				}
 				echo json_encode(array('id'=>$db->lastInsertId()));
 				break;
-
-			case "getFile":
-				$id = $_GET['id'];
-				$query = "SELECT * FROM file where id = $id";
-				$result = $db->query($query);
-				if (!$result) {
-					die(print_r($db->errorInfo()));
-				}
-				$result = $result->fetchAll(PDO::FETCH_ASSOC);
-				header('Content-type: application/json');
-				echo json_encode(array('file'=>$result[0]));
-				break;
 				
 			case "updateStatus":
 				$id = $_GET['id'];
@@ -366,6 +358,19 @@ if(isset($_GET['action']) || isset($_POST['action'])) {
 					echo 1;
 				}
 				break;
+				
+			case "getImage":
+				$name = $_GET['name'];
+				echo file_get_contents("./images/$name");
+				
+			case "getVoicenote":
+				$name = $_GET['name'];
+				echo file_get_contents("./voicenotes/$name");
+				
+			case "getFile":
+				$name = $_GET['name'];
+				echo file_get_contents("./files/$name");
+			
 		}
 	} catch (PDOException $e) {
     	echo $e;

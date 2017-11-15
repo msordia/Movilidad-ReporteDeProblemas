@@ -20,7 +20,7 @@ public class VoicenoteJsonParser implements IJsonParser<Voicenote> {
 
         voicenote.setId(json.getLong("id"));
         voicenote.setReportId(json.getLong("reportId"));
-        voicenote.setBytes(StringByteParser.parseToBytes(json.getString("bytes")));
+        voicenote.setName(json.getString("name"));
 
         return voicenote;
     }
