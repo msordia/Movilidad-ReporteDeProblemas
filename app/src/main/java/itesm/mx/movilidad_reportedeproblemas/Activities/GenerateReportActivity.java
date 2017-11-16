@@ -5,10 +5,10 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,19 +35,19 @@ import itesm.mx.movilidad_reportedeproblemas.Models.Report;
 import itesm.mx.movilidad_reportedeproblemas.Models.UploadedFile;
 import itesm.mx.movilidad_reportedeproblemas.Models.Voicenote;
 import itesm.mx.movilidad_reportedeproblemas.R;
-import itesm.mx.movilidad_reportedeproblemas.Services.IDatabaseProvider.WebDatabaseProvider;
-import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.DummyLoginProvider;
-import itesm.mx.movilidad_reportedeproblemas.Services.IFileReader.FileReader;
-import itesm.mx.movilidad_reportedeproblemas.Services.IFileReader.IFileReader;
 import itesm.mx.movilidad_reportedeproblemas.Services.FileNameFinder;
-import itesm.mx.movilidad_reportedeproblemas.Services.ILocationService.LocationService;
 import itesm.mx.movilidad_reportedeproblemas.Services.IBitmapManager.HashByteArrayManager;
 import itesm.mx.movilidad_reportedeproblemas.Services.IBitmapManager.IByteArrayManager;
 import itesm.mx.movilidad_reportedeproblemas.Services.ICommentManager.HashStringManager;
 import itesm.mx.movilidad_reportedeproblemas.Services.ICommentManager.IStringManager;
 import itesm.mx.movilidad_reportedeproblemas.Services.IContainer;
 import itesm.mx.movilidad_reportedeproblemas.Services.IDatabaseProvider.IDatabaseProvider;
+import itesm.mx.movilidad_reportedeproblemas.Services.IDatabaseProvider.WebDatabaseProvider;
+import itesm.mx.movilidad_reportedeproblemas.Services.IFileReader.FileReader;
+import itesm.mx.movilidad_reportedeproblemas.Services.IFileReader.IFileReader;
 import itesm.mx.movilidad_reportedeproblemas.Services.ILocationService.ILocationService;
+import itesm.mx.movilidad_reportedeproblemas.Services.ILocationService.LocationService;
+import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.DummyLoginProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.ILoginProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.PermissionChecker;
 import itesm.mx.movilidad_reportedeproblemas.Services.UriPathFinder;
@@ -155,7 +155,7 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
 
         Category category = (Category) spinner.getSelectedItem();
 
-        Report report = new Report();
+        final Report report = new Report();
         report.setCategory(category);
         report.setCategoryId(category.getId());
         report.setLatitude(location.getLatitude());
@@ -193,10 +193,15 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
         report.log();
 
         btnGenerate.setEnabled(false);
+        Toast.makeText(this, "Comenzo a subirse el reporte", Toast.LENGTH_SHORT).show();
         _db.addReport(report, new IDatabaseProvider.IDbHandler<Long>() {
             @Override
             public void handle(Long result) {
                 btnGenerate.setEnabled(true);
+                if (result == -1) {
+                    Toast.makeText(getApplicationContext(), "Hubo un error al subir el reporte.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 showSuccess(result);
             }
         });

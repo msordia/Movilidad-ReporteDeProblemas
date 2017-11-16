@@ -269,12 +269,12 @@ if(isset($_GET['action']) || isset($_POST['action'])) {
 					$images[] = array('image'=>$image);
 				 } 
 				header('Content-type: application/json');
-				echo json_encode(array('images'=>$image));
+				echo json_encode(array('images'=>$images));
 				break;
 
 			case "filesForReport":
 				$report = $_GET['reportId'];
-				$query = "SELECT id, reportId, bytes FROM file where reportId = '$report'";
+				$query = "SELECT * FROM file where reportId = '$report'";
 				$result = $db->query($query);
 				if (!$result) {
 					die(print_r($db->errorInfo()));

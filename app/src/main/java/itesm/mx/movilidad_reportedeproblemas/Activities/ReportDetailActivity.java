@@ -11,12 +11,16 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import itesm.mx.movilidad_reportedeproblemas.Fragments.FileDownloadFragment;
 import itesm.mx.movilidad_reportedeproblemas.Fragments.MarkAsFinishedFragment;
 import itesm.mx.movilidad_reportedeproblemas.Fragments.MarkReportAsStartedFragment;
 import itesm.mx.movilidad_reportedeproblemas.Fragments.PlayAudioFragment;
+import itesm.mx.movilidad_reportedeproblemas.Fragments.ShowImageFragment;
 import itesm.mx.movilidad_reportedeproblemas.Fragments.ViewCommentFragment;
 import itesm.mx.movilidad_reportedeproblemas.Models.Comment;
+import itesm.mx.movilidad_reportedeproblemas.Models.Image;
 import itesm.mx.movilidad_reportedeproblemas.Models.Report;
+import itesm.mx.movilidad_reportedeproblemas.Models.UploadedFile;
 import itesm.mx.movilidad_reportedeproblemas.Models.Voicenote;
 import itesm.mx.movilidad_reportedeproblemas.R;
 import itesm.mx.movilidad_reportedeproblemas.Services.IContainer;
@@ -101,6 +105,30 @@ public class ReportDetailActivity extends AppCompatActivity implements IContaine
                     }
                 });
             }
+            }
+        });
+
+        _db.getImagesForReport(_report.getId(), new IDatabaseProvider.IDbHandler<ArrayList<Image>>() {
+            @Override
+            public void handle(ArrayList<Image> images) {
+                for (final Image image: images) {
+                    String url = WebFileReader.BASE_URL + WebFileReader.DIR_IMAGE + image.getName();
+                    WebFileReader.readFile(url, new WebFileReader.WebFileHandler() {
+                        @Override
+                        public void handle(byte[] bytes) {
+                            addExtraFragment(manager, ShowImageFragment.newInstance(bytes));
+                        }
+                    });
+                }
+            }
+        });
+
+        _db.getFilesForReport(_report.getId(), new IDatabaseProvider.IDbHandler<ArrayList<UploadedFile>>() {
+            @Override
+            public void handle(ArrayList<UploadedFile> files) {
+                for (final UploadedFile file : files) {
+                    addExtraFragment(manager, FileDownloadFragment.newInstance(file.getName()));
+                }
             }
         });
     }
