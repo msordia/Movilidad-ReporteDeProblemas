@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.util.EntityUtils;
 
@@ -33,6 +34,10 @@ public class WebsiteReader implements IWebsiteReader {
     @Override
     public void executePost(HttpClient client, HttpPost post, IWebsiteHandler handler) {
         new ExecutePostTask(handler, client).execute(post);
+    }
+
+    public void executeGet(HttpClient client, HttpGet get, IWebsiteHandler handler) {
+        new ExecuteGetTask(handler, client).execute(get);
     }
 
     class ReadWebsiteTask extends AsyncTask<String, Integer, String>{
@@ -93,6 +98,58 @@ public class WebsiteReader implements IWebsiteReader {
         protected String doInBackground(HttpPost... post) {
             try {
                 return EntityUtils.toString(_client.execute(post[0]).getEntity());
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "";
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            _handler.handle(s);
+            super.onPostExecute(s);
+        }
+
+        @Override
+        protected void onCancelled() {
+            Log.e("ExecutePostTask", "Task was cancelled");
+        }
+
+        protected String getContent(String urlString) {
+            try  {
+                URL url = new URL(urlString);
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                StringBuilder sb = new StringBuilder();
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
+                    String nextLine = "";
+                    while ((nextLine = reader.readLine()) != null) {
+                        sb.append(nextLine + '\n');
+                    }
+                } catch (IOException e) {
+                    Log.e("ExecutePostTask", e.toString());
+                }
+                return sb.toString();
+            } catch (Exception e) {
+                Log.e("ExecutePostTask", e.toString());
+            }
+
+            return "";
+        }
+    }
+
+    class ExecuteGetTask extends AsyncTask<HttpGet, Integer, String>{
+        private IWebsiteHandler _handler;
+        private HttpClient _client;
+
+        ExecuteGetTask(IWebsiteHandler handler, HttpClient client) {
+            _handler = handler;
+            _client = client;
+        }
+
+        @Override
+        protected String doInBackground(HttpGet... get) {
+            try {
+                return EntityUtils.toString(_client.execute(get[0]).getEntity());
             } catch (IOException e) {
                 e.printStackTrace();
                 return "";

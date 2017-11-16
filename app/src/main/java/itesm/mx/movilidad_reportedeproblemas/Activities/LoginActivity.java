@@ -16,6 +16,7 @@ import itesm.mx.movilidad_reportedeproblemas.R;
 import itesm.mx.movilidad_reportedeproblemas.Services.IDatabaseProvider.IDatabaseProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.IDatabaseProvider.WebDatabaseProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.DummyLoginProvider;
+import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.GetLoginProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.ILoginProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.ServerLoginProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.PermissionChecker;

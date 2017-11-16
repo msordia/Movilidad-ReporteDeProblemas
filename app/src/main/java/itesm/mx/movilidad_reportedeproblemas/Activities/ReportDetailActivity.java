@@ -198,8 +198,6 @@ public class ReportDetailActivity extends AppCompatActivity implements IContaine
 
         MarkerOptions reporte = new MarkerOptions().title("titulo reporte").position(ubica);
         map.addMarker(reporte);
-
-
     }
 
 
