@@ -9,6 +9,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import java.util.ArrayList;
 
 import itesm.mx.movilidad_reportedeproblemas.Fragments.FileDownloadFragment;
@@ -31,7 +38,7 @@ import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.ILoginProvi
 import itesm.mx.movilidad_reportedeproblemas.Services.StatusParser;
 import itesm.mx.movilidad_reportedeproblemas.Services.WebFileReader;
 
-public class ReportDetailActivity extends AppCompatActivity implements IContainer{
+public class ReportDetailActivity extends AppCompatActivity implements IContainer, OnMapReadyCallback {
     public final static String EXTRA_REPORT = "report";
 
     private ILoginProvider _loginProvider = DummyLoginProvider.getInstance();
@@ -43,6 +50,9 @@ public class ReportDetailActivity extends AppCompatActivity implements IContaine
     TextView tvCategory;
     ViewGroup vgExtras;
     LinearLayout updateLay;
+    GoogleMap map;
+
+
 
     private Report _report;
 
@@ -65,6 +75,8 @@ public class ReportDetailActivity extends AppCompatActivity implements IContaine
         tvDate.setText(_report.getDate().toString());
 
         final android.app.FragmentManager manager = getFragmentManager();
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentMap);
+        mapFragment.getMapAsync(this);
 
         _db.isAdmin(_loginProvider.getCurrentUser().getId(), new IDatabaseProvider.IDbHandler<Boolean>() {
             @Override
@@ -176,4 +188,19 @@ public class ReportDetailActivity extends AppCompatActivity implements IContaine
 
         return null;
     }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        map = googleMap;
+        map.getUiSettings().setZoomControlsEnabled(true);
+        LatLng ubica = new LatLng(_report.getLatitude(), _report.getLongitude());
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(ubica,20));
+
+        MarkerOptions reporte = new MarkerOptions().title("titulo reporte").position(ubica);
+        map.addMarker(reporte);
+
+
+    }
+
+
 }

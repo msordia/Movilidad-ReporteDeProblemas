@@ -13,6 +13,9 @@ import android.widget.Toast;
 import itesm.mx.movilidad_reportedeproblemas.Services.ILocationService.ILocationService;
 
 public class LocationService implements ILocationService {
+    private double _longitude = Long.MIN_VALUE;
+    private double _latitude = Long.MIN_VALUE;
+
 
     Context context;
     public LocationService(Context c){
@@ -21,6 +24,13 @@ public class LocationService implements ILocationService {
 
     public Location getLocation()
     {
+        if (_longitude != Long.MIN_VALUE) {
+            Location loc = new Location();
+            loc.setLatitude(_latitude);
+            loc.setLongitude(_longitude);
+            return loc;
+        }
+
         if(ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED){
             Toast.makeText(context, "Permiso denegado", Toast.LENGTH_SHORT).show();
@@ -62,5 +72,12 @@ public class LocationService implements ILocationService {
         }
 
         return null;
+    }
+
+    @Override
+    public void setLocation(double longitude, double latitude) {
+        _longitude = longitude;
+        _latitude = latitude;
+
     }
 }

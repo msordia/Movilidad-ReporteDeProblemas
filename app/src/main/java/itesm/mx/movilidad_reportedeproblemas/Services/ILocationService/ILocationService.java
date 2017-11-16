@@ -27,4 +27,5 @@ public interface ILocationService {
     }
 
     Location getLocation();
+    void setLocation(double longitude, double latitude);
 }

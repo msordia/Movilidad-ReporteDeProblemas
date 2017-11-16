@@ -12,4 +12,9 @@ public class DummyLocationService implements ILocationService {
         location.setLatitude(0);
         return location;
     }
+
+    @Override
+    public void setLocation(double longitude, double latitude) {
+
+    }
 }

@@ -18,6 +18,11 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -60,6 +65,8 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
     public static final int AUDIO_CONTAINER = 2;
     public static final int PATH_CONTAINER = 1;
     public static final int COMMENT_CONTAINER = 2;
+    private final static int MY_PERMISSION_FINE_LOCATION = 101;
+    private final static int PLACE_PICKER_RESULT = 101;
 
     private ILocationService _locationService;
     private IDatabaseProvider _db = new WebDatabaseProvider();
@@ -109,6 +116,9 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
         Button btnMyReports = (Button) findViewById(R.id.button_generateReport_myReports);
         btnMyReports.setOnClickListener(this);
 
+        Button btnPlacePicker = (Button)findViewById(R.id.button_ubiManual);
+        btnPlacePicker.setOnClickListener(this);
+
         vgExtras = (LinearLayout) findViewById(R.id.layout_generateReport_extras);
 
         _locationService = new LocationService(this);
@@ -134,6 +144,18 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
                 break;
             case R.id.button_generateReport_myReports:
                 showMyReports();
+                break;
+            case R.id.button_ubiManual:
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                try {
+                    Intent intent = builder.build(this);
+                    startActivityForResult(intent, PLACE_PICKER_RESULT);
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
+
         }
     }
 
@@ -248,6 +270,10 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
         else if (requestCode == PICK_FILE_RESULT_CODE && resultCode == RESULT_OK) {
             String filePath = data.getData().toString();
             generateFileFragment(filePath);
+        }
+        else if (requestCode == PLACE_PICKER_RESULT) {
+            Place place = PlacePicker.getPlace(this, data);
+            _locationService.setLocation(place.getLatLng().longitude, place.getLatLng().latitude);
         }
     }
 
