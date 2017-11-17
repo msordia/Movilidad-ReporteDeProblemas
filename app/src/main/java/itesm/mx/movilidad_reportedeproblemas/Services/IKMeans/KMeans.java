@@ -3,7 +3,7 @@ package itesm.mx.movilidad_reportedeproblemas.Services.IKMeans;
 import android.os.AsyncTask;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -14,7 +14,7 @@ public class KMeans implements IKMeans {
     private final static Random _rand = new Random();
 
     @Override
-    public void solve(int amountMeans, ArrayList<Point> points, IKMeansHandler handler) {
+    public void solve(int amountMeans, List<Point> points, OnKmeansFinishedListener handler) {
         KMeansTask.Params params = new KMeansTask.Params();
         params.amountMeans = amountMeans;
         params.points = points;
@@ -27,9 +27,9 @@ public class KMeans implements IKMeans {
         @Override
         protected ArrayList<Cluster> doInBackground(Params... params) {
             _params = params[0];
-            IKMeansHandler handler = params[0].handler;
+            OnKmeansFinishedListener handler = params[0].handler;
             int amountMeans = params[0].amountMeans;
-            ArrayList<Point> points = params[0].points;
+            List<Point> points = params[0].points;
 
             double minX = Double.MAX_VALUE;
             double maxX = Double.MIN_VALUE;
@@ -121,19 +121,19 @@ public class KMeans implements IKMeans {
         @Override
         protected void onProgressUpdate(ArrayList<Cluster>... values) {
             super.onProgressUpdate(values);
-            //_params.handler.handle(values[0]);
+            //_params.handler.onKmeansFinished(values[0]);
         }
 
         @Override
         protected void onPostExecute(ArrayList<Cluster> clusters) {
             super.onPostExecute(clusters);
-            _params.handler.handle(clusters);
+            _params.handler.onKmeansFinished(clusters);
         }
 
         static class Params {
             public int amountMeans;
-            public ArrayList<Point> points;
-            public IKMeansHandler handler;
+            public List<Point> points;
+            public OnKmeansFinishedListener handler;
         }
     }
 }

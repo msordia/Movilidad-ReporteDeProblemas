@@ -1,122 +1,91 @@
 package itesm.mx.movilidad_reportedeproblemas.Activities;
 
-import android.os.Handler;
-import android.os.Looper;
+import android.support.v4.app.FragmentManager;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.TextView;
-
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
+import android.view.ViewGroup;
+import android.widget.ScrollView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import itesm.mx.movilidad_reportedeproblemas.Fragments.KmeansMapFragment;
+import itesm.mx.movilidad_reportedeproblemas.Fragments.PieChartFragment;
+import itesm.mx.movilidad_reportedeproblemas.Fragments.ScrollFriendlySupportMapFragment;
 import itesm.mx.movilidad_reportedeproblemas.Models.Report;
 import itesm.mx.movilidad_reportedeproblemas.R;
 import itesm.mx.movilidad_reportedeproblemas.Services.IDatabaseProvider.IDatabaseProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.IDatabaseProvider.WebDatabaseProvider;
-import itesm.mx.movilidad_reportedeproblemas.Services.IKMeans.IKMeans;
-import itesm.mx.movilidad_reportedeproblemas.Services.IKMeans.KMeans;
+import itesm.mx.movilidad_reportedeproblemas.Services.StatusColorMatcher;
+import itesm.mx.movilidad_reportedeproblemas.Services.StatusParser;
 import itesm.mx.movilidad_reportedeproblemas.Services.Tuple;
 
-public class StatsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
-    private IKMeans _kmeans = new KMeans();
+public class StatsActivity extends AppCompatActivity {
     private WebDatabaseProvider _db = new WebDatabaseProvider();
 
-    TextView tvResult;
-
-    private GoogleMap _map;
-    private StatsActivity _self = this;
-    private ArrayList<Tuple<MarkerOptions, IKMeans.Cluster>> markers;
+    ScrollView layScrollView;
+    ViewGroup vgFragments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentMap);
-        mapFragment.getMapAsync(_self);
-
-        tvResult = findViewById(R.id.text_result);
-        tvResult.setText("Obteniendo datos");
+        layScrollView = findViewById(R.id.layout_stats_scrollView);
+        vgFragments = findViewById(R.id.layout_stats_charts);
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
-        _map = googleMap;
-        _map.getUiSettings().setZoomControlsEnabled(true);
-        LatLng ubica = new LatLng(25.650789, -100.289558);
-        _map.moveCamera(CameraUpdateFactory.newLatLngZoom(ubica, 15));
-        _map.setOnMarkerClickListener(this);
-
+    protected void onResume() {
+        super.onResume();
         _db.getReports(new IDatabaseProvider.IDbHandler<ArrayList<Report>>() {
             @Override
             public void handle(ArrayList<Report> result) {
-                tvResult.setText("Calculando");
-                final ArrayList<IKMeans.Point> points = new ArrayList<>();
+                Map<Integer, Integer> statusCounter = new HashMap<>();
+                Map<Long, Integer> categoryCounter = new HashMap<>();
                 for (Report report : result) {
-                    IKMeans.Point point = new IKMeans.Point(report.getLongitude(), report.getLatitude());
-                    points.add(point);
+                    if (!statusCounter.containsKey(report.getStatus()))
+                        statusCounter.put(report.getStatus(), 0);
+                    if (!categoryCounter.containsKey(report.getCategoryId()))
+                        categoryCounter.put(report.getCategoryId(), 0);
+
+                    statusCounter.put(report.getStatus(), statusCounter.get(report.getStatus()) + 1);
+                    categoryCounter.put(report.getCategoryId(), categoryCounter.get(report.getCategoryId()) + 1);
                 }
 
-                _kmeans.solve(5, points, new IKMeans.IKMeansHandler() {
-                    @Override
-                    public void handle(ArrayList<IKMeans.Cluster> result) {
-                        tvResult.setText("Calculo exitoso");
-                        markers = new ArrayList<>();
-                        for (final IKMeans.Cluster cluster : result) {
-                            if (cluster.x != 0 || cluster.y != 0) {
-                                markers.add(new Tuple<>(new MarkerOptions().position(new LatLng(cluster.y, cluster.x)), cluster));
-                            }
+                List<Tuple<Tuple<String,Double>,Integer>> statuses = new ArrayList<>();
+                for (int status : statusCounter.keySet()) {
+                    statuses.add(new Tuple<>(new Tuple<>(StatusParser.Parse(status), (double) statusCounter.get(status)), StatusColorMatcher.getColor(status)));
+                }
+
+                List<Tuple<Tuple<String,Double>,Integer>> categories = new ArrayList<>();
+                int[] colors = new int[] {Color.BLUE, Color.CYAN, Color.MAGENTA, Color.YELLOW, Color.GREEN};
+                int i = 0;
+                for (long categoryId : categoryCounter.keySet()) {
+                    categories.add(new Tuple<>(new Tuple<>(Long.toString(categoryId), (double) categoryCounter.get(categoryId)), colors[i++ % colors.length]));
+                }
+
+                FragmentManager manager = getSupportFragmentManager();
+                vgFragments.removeAllViews();
+                if (result.size() != 0) {
+                    KmeansMapFragment kmeansFragment = KmeansMapFragment.newInstance(result);
+                    kmeansFragment.setListener(new ScrollFriendlySupportMapFragment.OnTouchListener() {
+                        @Override
+                        public void onTouch() {
+                            layScrollView.requestDisallowInterceptTouchEvent(true);
                         }
-
-                        resetMapAndDraw(new ArrayList<MarkerOptions>());
-                    }
-                });
+                    });
+                    manager.beginTransaction().add(vgFragments.getId(), kmeansFragment).commit();
+                    manager.beginTransaction().add(vgFragments.getId(), PieChartFragment.newInstance(statuses)).commit();
+                    manager.beginTransaction().add(vgFragments.getId(), PieChartFragment.newInstance(categories)).commit();
+                } else {
+                    Toast.makeText(getApplicationContext(), "No hay reportes que mostrar; puede haber un problema de conexion con el servidor.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
-    }
-
-    private void resetMapAndDraw(final ArrayList<MarkerOptions> additionalMarkers) {
-        Handler handler = new Handler(Looper.getMainLooper());
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                //StringBuilder sb = new StringBuilder();
-                _map.clear();
-                for (Tuple<MarkerOptions, IKMeans.Cluster> tuple : markers) {
-                    //sb.append(tuple.y.y + ", " + tuple.y.x + "\n");
-                    Marker m = _map.addMarker(tuple.x);
-                    m.setTag(tuple.y);
-                }
-
-                for (MarkerOptions marker : additionalMarkers) {
-                    _map.addMarker(marker);
-                }
-                //tvResult.setText(sb.toString());
-            }
-        });
-    }
-
-    @Override
-    public boolean onMarkerClick(Marker marker) {
-        if (marker.getTag() == null)
-            return false;
-
-        IKMeans.Cluster cluster = (IKMeans.Cluster) marker.getTag();
-        ArrayList<MarkerOptions> additional = new ArrayList<>();
-        for (IKMeans.Point point : cluster.points) {
-            additional.add(new MarkerOptions().position(new LatLng(point.y, point.x)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-        }
-
-        resetMapAndDraw(additional);
-
-        return false;
     }
 }

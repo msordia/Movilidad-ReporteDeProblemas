@@ -1,13 +1,14 @@
 package itesm.mx.movilidad_reportedeproblemas.Services.IKMeans;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by juanc on 11/16/2017.
  */
 
 public interface IKMeans {
-    void solve(int amountMeans, ArrayList<Point> points, IKMeansHandler handler);
+    void solve(int amountMeans, List<Point> points, OnKmeansFinishedListener handler);
 
     class Point{
         public double x;
@@ -30,7 +31,7 @@ public interface IKMeans {
         }
     }
 
-    interface IKMeansHandler {
-        void handle(ArrayList<Cluster> points);
+    interface OnKmeansFinishedListener {
+        void onKmeansFinished(ArrayList<Cluster> points);
     }
 }
