@@ -31,7 +31,7 @@
     <Button android:id="@+id/button_adminHome_history"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Historial"/>
+        android:text="Estadisticas"/>
 
     <Button android:id="@+id/button_adminHome_addAdmin"
         android:layout_width="wrap_content"

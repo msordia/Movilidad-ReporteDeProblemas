@@ -22,10 +22,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAGtzzoNSIMSNK9joVeB9qIfBVOIw0GqNk"/>
+            android:value="AIzaSyAGtzzoNSIMSNK9joVeB9qIfBVOIw0GqNk" />
 
         <activity android:name=".Activities.LoginActivity">
             <intent-filter>
@@ -42,7 +41,8 @@
         <activity android:name=".Activities.MyReportsActivity" />
         <activity android:name=".Activities.ReportDetailActivity" />
         <activity android:name=".Activities.AdminReportListActivity" />
-        <activity android:name=".Activities.ManageAdminsActivity"></activity>
+        <activity android:name=".Activities.ManageAdminsActivity" />
+        <activity android:name=".Activities.StatsActivity"></activity>
     </application>
 
 </manifest>
