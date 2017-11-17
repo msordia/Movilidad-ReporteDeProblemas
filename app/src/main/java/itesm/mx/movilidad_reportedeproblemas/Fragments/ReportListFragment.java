@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import itesm.mx.movilidad_reportedeproblemas.Activities.ReportDetailActivity;
 import itesm.mx.movilidad_reportedeproblemas.Adapters.ReportAdapter;
@@ -36,6 +37,7 @@ public class ReportListFragment extends ListFragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             _reports = getArguments().getParcelableArrayList(ARG_LIST);
+            Collections.reverse(_reports);
         } else {
             _reports = new ArrayList<>();
         }

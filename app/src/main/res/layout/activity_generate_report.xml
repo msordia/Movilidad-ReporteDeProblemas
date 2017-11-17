@@ -66,12 +66,15 @@
                 android:scaleType="fitCenter"
                 android:layout_margin="10dp"
                 android:layout_weight="1"/>
+            <ImageButton android:id="@+id/button_ubiManual"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/location"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:layout_margin="10dp"
+                android:layout_weight="1"/>
         </LinearLayout>
-
-        <Button android:id="@+id/button_ubiManual"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Seleccionar ubicación"/>
 
         <LinearLayout android:id="@+id/layout_generateReport_extras"
             android:layout_width="match_parent"

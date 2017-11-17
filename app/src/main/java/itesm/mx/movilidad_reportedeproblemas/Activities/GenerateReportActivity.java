@@ -116,7 +116,7 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
         Button btnMyReports = (Button) findViewById(R.id.button_generateReport_myReports);
         btnMyReports.setOnClickListener(this);
 
-        Button btnPlacePicker = (Button)findViewById(R.id.button_ubiManual);
+        ImageButton btnPlacePicker = (ImageButton)findViewById(R.id.button_ubiManual);
         btnPlacePicker.setOnClickListener(this);
 
         vgExtras = (LinearLayout) findViewById(R.id.layout_generateReport_extras);
