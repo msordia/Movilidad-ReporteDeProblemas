@@ -35,14 +35,16 @@ import itesm.mx.movilidad_reportedeproblemas.Services.IContainer;
 import itesm.mx.movilidad_reportedeproblemas.Services.IDatabaseProvider.IDatabaseProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.IDatabaseProvider.WebDatabaseProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.DummyLoginProvider;
+import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.GetLoginProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.ILoginProvider;
+import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.LoginProviderFactory;
 import itesm.mx.movilidad_reportedeproblemas.Services.StatusParser;
 import itesm.mx.movilidad_reportedeproblemas.Services.WebFileReader;
 
 public class ReportDetailActivity extends AppCompatActivity implements IContainer, OnMapReadyCallback {
     public final static String EXTRA_REPORT = "report";
 
-    private ILoginProvider _loginProvider = DummyLoginProvider.getInstance();
+    private ILoginProvider _loginProvider = LoginProviderFactory.getDefaultInstance();
     private IDatabaseProvider _db = new WebDatabaseProvider();
 
     TextView tvUser;

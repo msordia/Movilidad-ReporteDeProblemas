@@ -18,11 +18,12 @@ import itesm.mx.movilidad_reportedeproblemas.Services.IDatabaseProvider.WebDatab
 import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.DummyLoginProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.GetLoginProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.ILoginProvider;
+import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.LoginProviderFactory;
 import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.ServerLoginProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.PermissionChecker;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, ILoginProvider.ILoginHandler {
-    private ILoginProvider _loginProvider = DummyLoginProvider.getInstance();
+    private ILoginProvider _loginProvider = LoginProviderFactory.getDefaultInstance();
     private IDatabaseProvider _db = new WebDatabaseProvider();
 
     private LoginActivity self = this;
@@ -65,6 +66,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void handle(String username, String password, boolean result) {
         Log.i("Login", username + " " + password + " " + result);
+        btnLogin.setEnabled(true);
         if (result) {
             _db.isAdmin(username, new IDatabaseProvider.IDbHandler<Boolean>() {
                 @Override

@@ -1,5 +1,7 @@
 package itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider;
 
+import android.util.Log;
+
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -45,6 +47,7 @@ public class GetLoginProvider implements ILoginProvider {
                 XmlParser xmlParser = new XmlParser();
                 Alumno alumno = null;
                 try {
+                    Log.i("GetLoginProvider", "Response: " + content);
                     alumno = xmlParser.parse(content);
                 } catch (XmlPullParserException e) {
                     e.printStackTrace();

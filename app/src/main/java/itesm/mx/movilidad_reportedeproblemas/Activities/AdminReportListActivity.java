@@ -26,13 +26,13 @@ import itesm.mx.movilidad_reportedeproblemas.R;
 import itesm.mx.movilidad_reportedeproblemas.Services.IDatabaseProvider.IDatabaseProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.IDatabaseProvider.WebDatabaseProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.DummyLoginProvider;
+import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.GetLoginProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.ILoginProvider;
 
 public class AdminReportListActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
     private LinearLayout list;
 
     private IDatabaseProvider _db = new WebDatabaseProvider();
-    private ILoginProvider _loginProvider = DummyLoginProvider.getInstance();
 
     private ArrayList<MarkerOptions> _markers = null;
     private GoogleMap _map;

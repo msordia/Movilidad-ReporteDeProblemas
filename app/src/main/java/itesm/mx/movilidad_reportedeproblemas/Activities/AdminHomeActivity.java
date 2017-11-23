@@ -9,10 +9,12 @@ import android.widget.TextView;
 
 import itesm.mx.movilidad_reportedeproblemas.R;
 import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.DummyLoginProvider;
+import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.GetLoginProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.ILoginProvider;
+import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.LoginProviderFactory;
 
 public class AdminHomeActivity extends AppCompatActivity {
-    private ILoginProvider _loginProvider = DummyLoginProvider.getInstance();
+    private ILoginProvider _loginProvider = LoginProviderFactory.getDefaultInstance();
 
     TextView tvName;
     Button btnAdminister;

@@ -54,7 +54,9 @@ import itesm.mx.movilidad_reportedeproblemas.Services.IFileReader.IFileReader;
 import itesm.mx.movilidad_reportedeproblemas.Services.ILocationService.ILocationService;
 import itesm.mx.movilidad_reportedeproblemas.Services.ILocationService.LocationService;
 import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.DummyLoginProvider;
+import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.GetLoginProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.ILoginProvider;
+import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.LoginProviderFactory;
 import itesm.mx.movilidad_reportedeproblemas.Services.PermissionChecker;
 import itesm.mx.movilidad_reportedeproblemas.Services.UriPathFinder;
 
@@ -77,7 +79,7 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
     private IByteArrayManager _soundManager = new HashByteArrayManager();
     private IStringManager _fileManager = new HashStringManager();
     private IFileReader _fileReader = new FileReader();
-    private ILoginProvider _loginProvider = DummyLoginProvider.getInstance();
+    private ILoginProvider _loginProvider = LoginProviderFactory.getDefaultInstance();
     private EmailSender _mailer = new EmailSender();
 
     private GenerateReportActivity self = this;

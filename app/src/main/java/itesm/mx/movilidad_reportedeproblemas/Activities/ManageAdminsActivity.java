@@ -12,11 +12,13 @@ import itesm.mx.movilidad_reportedeproblemas.R;
 import itesm.mx.movilidad_reportedeproblemas.Services.IDatabaseProvider.IDatabaseProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.IDatabaseProvider.WebDatabaseProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.DummyLoginProvider;
+import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.GetLoginProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.ILoginProvider;
+import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.LoginProviderFactory;
 
 public class ManageAdminsActivity extends AppCompatActivity implements View.OnClickListener {
     private IDatabaseProvider _db = new WebDatabaseProvider();
-    private ILoginProvider _loginProvider = DummyLoginProvider.getInstance();
+    private ILoginProvider _loginProvider = LoginProviderFactory.getDefaultInstance();
 
     Button btnAddAdmin;
     Button btnRemoveAdmin;

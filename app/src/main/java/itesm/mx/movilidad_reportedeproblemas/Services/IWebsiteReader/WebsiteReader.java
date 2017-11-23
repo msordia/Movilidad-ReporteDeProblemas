@@ -65,6 +65,9 @@ public class WebsiteReader implements IWebsiteReader {
 
         protected String getContent(String urlString) {
             try  {
+                if (urlString.startsWith("http:/w")) {
+                    urlString = "http://" + urlString.substring(6);
+                }
                 URL url = new URL(urlString);
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 StringBuilder sb = new StringBuilder();
@@ -74,11 +77,11 @@ public class WebsiteReader implements IWebsiteReader {
                         sb.append(nextLine + '\n');
                     }
                 } catch (IOException e) {
-                    Log.e("getWebSiteContent", e.toString());
+                    Log.e("ReadWebsiteTask", e.toString());
                 }
                 return sb.toString();
             } catch (Exception e) {
-                Log.e("getWebSiteContent", e.toString());
+                Log.e("ReadWebsiteTask", e.toString());
             }
 
             return "";
