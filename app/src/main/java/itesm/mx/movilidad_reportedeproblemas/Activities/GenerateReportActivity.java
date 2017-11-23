@@ -40,6 +40,7 @@ import itesm.mx.movilidad_reportedeproblemas.Models.Report;
 import itesm.mx.movilidad_reportedeproblemas.Models.UploadedFile;
 import itesm.mx.movilidad_reportedeproblemas.Models.Voicenote;
 import itesm.mx.movilidad_reportedeproblemas.R;
+import itesm.mx.movilidad_reportedeproblemas.Services.EmailSender;
 import itesm.mx.movilidad_reportedeproblemas.Services.FileNameFinder;
 import itesm.mx.movilidad_reportedeproblemas.Services.IBitmapManager.HashByteArrayManager;
 import itesm.mx.movilidad_reportedeproblemas.Services.IBitmapManager.IByteArrayManager;
@@ -58,6 +59,7 @@ import itesm.mx.movilidad_reportedeproblemas.Services.PermissionChecker;
 import itesm.mx.movilidad_reportedeproblemas.Services.UriPathFinder;
 
 public class GenerateReportActivity extends AppCompatActivity implements View.OnClickListener, IContainer{
+    //levantar reporte
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int PICK_FILE_RESULT_CODE = 2;
@@ -82,6 +84,7 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
     private Spinner spinner;
     private ViewGroup vgExtras;
     private Button btnGenerate;
+    public EmailSender NewEmail = new EmailSender();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,7 +131,11 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.button_generateReport:
+            {
+                NewEmail.sendEmail();
                 generateReport();
+
+            }
                 break;
             case R.id.button_generateReport_photo:
                 takePicture();
