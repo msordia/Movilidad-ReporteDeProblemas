@@ -10,11 +10,14 @@
     <EditText android:id="@+id/edit_login_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="text"
+        android:maxLines="1"
         android:hint="Usuario"/>
 
     <EditText android:id="@+id/edit_login_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="textPassword"
         android:hint="Contrasena"/>
 
     <Button android:id="@+id/button_login"
