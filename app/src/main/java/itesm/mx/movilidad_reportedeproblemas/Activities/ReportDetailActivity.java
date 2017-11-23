@@ -3,6 +3,7 @@ package itesm.mx.movilidad_reportedeproblemas.Activities;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -52,8 +53,6 @@ public class ReportDetailActivity extends AppCompatActivity implements IContaine
     LinearLayout updateLay;
     GoogleMap map;
 
-
-
     private Report _report;
 
     @Override
@@ -98,6 +97,12 @@ public class ReportDetailActivity extends AppCompatActivity implements IContaine
         _db.getCommentsForReport(_report.getId(), new IDatabaseProvider.IDbHandler<ArrayList<Comment>>() {
             @Override
             public void handle(ArrayList<Comment> comments) {
+                if (comments == null) {
+                    Log.e("ReportDetail", "Could not get comments");
+                    Toast.makeText(getApplicationContext(), "Hubo un problema con la conexion con el servior. Intente de nuevo.", Toast.LENGTH_SHORT).show();
+                    finish();
+                    return;
+                }
                 for (Comment comment : comments) {
                     addExtraFragment(manager, ViewCommentFragment.newInstance(comment));
                 }
@@ -107,6 +112,12 @@ public class ReportDetailActivity extends AppCompatActivity implements IContaine
         _db.getVoicenotesForReport(_report.getId(), new IDatabaseProvider.IDbHandler<ArrayList<Voicenote>>() {
             @Override
             public void handle(ArrayList<Voicenote> voicenotes) {
+                if (voicenotes == null) {
+                    Log.e("ReportDetail", "Could not get voicenotes");
+                    Toast.makeText(getApplicationContext(), "Hubo un problema con la conexion con el servior. Intente de nuevo.", Toast.LENGTH_SHORT).show();
+                    finish();
+                    return;
+                }
             for (final Voicenote voicenote : voicenotes) {
                 String url = WebFileReader.BASE_URL + WebFileReader.DIR_VOICENOTE + voicenote.getName();
                 WebFileReader.readFile(url, new WebFileReader.WebFileHandler() {
@@ -123,6 +134,12 @@ public class ReportDetailActivity extends AppCompatActivity implements IContaine
         _db.getImagesForReport(_report.getId(), new IDatabaseProvider.IDbHandler<ArrayList<Image>>() {
             @Override
             public void handle(ArrayList<Image> images) {
+                if (images == null) {
+                    Log.e("ReportDetail", "Could not get images");
+                    Toast.makeText(getApplicationContext(), "Hubo un problema con la conexion con el servior. Intente de nuevo.", Toast.LENGTH_SHORT).show();
+                    finish();
+                    return;
+                }
                 for (final Image image: images) {
                     String url = WebFileReader.BASE_URL + WebFileReader.DIR_IMAGE + image.getName();
                     WebFileReader.readFile(url, new WebFileReader.WebFileHandler() {
@@ -138,6 +155,12 @@ public class ReportDetailActivity extends AppCompatActivity implements IContaine
         _db.getFilesForReport(_report.getId(), new IDatabaseProvider.IDbHandler<ArrayList<UploadedFile>>() {
             @Override
             public void handle(ArrayList<UploadedFile> files) {
+                if (files == null) {
+                    Log.e("ReportDetail", "Could not get files");
+                    Toast.makeText(getApplicationContext(), "Hubo un problema con la conexion con el servior. Intente de nuevo.", Toast.LENGTH_SHORT).show();
+                    finish();
+                    return;
+                }
                 for (final UploadedFile file : files) {
                     addExtraFragment(manager, FileDownloadFragment.newInstance(file.getName()));
                 }
@@ -185,7 +208,6 @@ public class ReportDetailActivity extends AppCompatActivity implements IContaine
                 }
             };
         }
-
         return null;
     }
 
@@ -199,6 +221,4 @@ public class ReportDetailActivity extends AppCompatActivity implements IContaine
         MarkerOptions reporte = new MarkerOptions().title("titulo reporte").position(ubica);
         map.addMarker(reporte);
     }
-
-
 }

@@ -3,7 +3,9 @@ package itesm.mx.movilidad_reportedeproblemas.Activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -55,6 +57,12 @@ public class AdminReportListActivity extends AppCompatActivity implements OnMapR
         _db.getReports(new IDatabaseProvider.IDbHandler<ArrayList<Report>>() {
             @Override
             public void handle(final ArrayList<Report> reports) {
+                if (reports == null) {
+                    Log.e("AdminReportList", "Could not get reports.");
+                    Toast.makeText(getApplicationContext(), "Hubo un problema con la conexion con el servidor. Intente de nuevo.", Toast.LENGTH_SHORT).show();
+                    finish();
+                    return;
+                }
                 final HashMap<Long, Category> hash = new HashMap<>();
 
                 ArrayList<Report> toRemove = new ArrayList<>();
@@ -72,6 +80,12 @@ public class AdminReportListActivity extends AppCompatActivity implements OnMapR
                 _db.getCategories(new IDatabaseProvider.IDbHandler<ArrayList<Category>>() {
                     @Override
                     public void handle(ArrayList<Category> categories) {
+                        if (categories == null) {
+                            Log.e("AdminReportList", "Could not get categories.");
+                            Toast.makeText(getApplicationContext(), "Hubo un problema con la conexion con el servidor. Intente de nuevo.", Toast.LENGTH_SHORT).show();
+                            finish();
+                            return;
+                        }
                         for (Category category : categories) {
                             hash.put(category.getId(), category);
                         }

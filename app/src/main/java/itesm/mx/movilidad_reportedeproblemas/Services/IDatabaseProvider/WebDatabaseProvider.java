@@ -38,13 +38,9 @@ import itesm.mx.movilidad_reportedeproblemas.Services.IJsonParser.ReportJsonPars
 
 public class WebDatabaseProvider implements IDatabaseProvider {
     private final static String BASE_URL = "www.reportesmovilidadtec.x10host.com/service.php";
-    private final static String GET_REPORT = "getReport";
     private final static String GET_REPORTS = "getReports";
-    private final static String DELETE_REPORT = "deleteReport";
     private final static String ADD_REPORT = "addReport";
-    private final static String GET_CATEOGRY = "getCategory";
     private final static String GET_CATEGORIES = "getCategories";
-    private final static String DELETE_CATEGORY = "deleteCategory";
     private final static String ADD_CATEGORY = "addCategory";
     private final static String GET_REPORTS_FOR_USER = "reportsForUser";
     private final static String IS_ADMIN = "isAdmin";
@@ -65,27 +61,6 @@ public class WebDatabaseProvider implements IDatabaseProvider {
     }
 
     @Override
-    public void getReport(long id, final IDbHandler<Report> handler) {
-        Uri.Builder builder = baseBuilder()
-                .appendQueryParameter("action", GET_REPORT)
-                .appendQueryParameter("id", Long.toString(id));
-        String url = builder.build().toString();
-
-        _reader.getWebsiteContent(url, new IWebsiteReader.IWebsiteHandler() {
-            @Override
-            public void handle(String json) {
-                try {
-                    JSONObject obj = new JSONObject(json);
-                    handler.handle( _reportParser.parse(obj));
-                } catch (Exception e) {
-                    Log.e("getReport", e.toString());
-                    handler.handle(null);
-                }
-            }
-        });
-    }
-
-    @Override
     public void getReports(final IDbHandler<ArrayList<Report>> handler) {
         Uri.Builder builder = baseBuilder()
                 .appendQueryParameter("action", GET_REPORTS);
@@ -102,29 +77,10 @@ public class WebDatabaseProvider implements IDatabaseProvider {
                     }
                 } catch (Exception e) {
                     Log.e("getReports", e.toString());
+                    handler.handle(null);
+                    return;
                 }
                 handler.handle(reports);
-            }
-        });
-    }
-
-    @Override
-    public void deleteReport(long id, final IDbHandler<Boolean> handler) {
-        Uri.Builder builder = baseBuilder()
-                .appendQueryParameter("action", DELETE_REPORT)
-                .appendQueryParameter("userId", Long.toString(id));
-        String url = builder.build().toString();
-
-        _reader.getWebsiteContent(url, new IWebsiteReader.IWebsiteHandler() {
-            @Override
-            public void handle(String json) {
-                try {
-                    JSONObject obj = new JSONObject(json);
-                    handler.handle(obj.getInt("rows") > 0);
-                } catch (Exception e) {
-                    Log.e("deleteReport", e.toString());
-                    handler.handle(false);
-                }
             }
         });
     }
@@ -134,16 +90,13 @@ public class WebDatabaseProvider implements IDatabaseProvider {
 
         HttpClient client = new DefaultHttpClient();
         HttpPost post = new HttpPost("http://" + BASE_URL);
-
         MultipartEntityBuilder entityBuilder = MultipartEntityBuilder.create();
-
         entityBuilder.addTextBody("action", ADD_REPORT);
         entityBuilder.addTextBody("userId", report.getUserId());
         entityBuilder.addTextBody("categoryId", Long.toString(report.getCategoryId()));
         entityBuilder.addTextBody("longitude", Double.toString(report.getLongitude()));
         entityBuilder.addTextBody("latitude", Double.toString(report.getLatitude()));
         entityBuilder.addTextBody("status", Integer.toString(report.getStatus()));
-
 
         ArrayList<UploadedFile> files = report.getFiles();
         ArrayList<Image> images = report.getImages();
@@ -202,28 +155,7 @@ public class WebDatabaseProvider implements IDatabaseProvider {
         _reader.getWebsiteContent(url, new IWebsiteReader.IWebsiteHandler() {
             @Override
             public void handle(String json) {
-                handler.handle(!Objects.equals(json, "-1"));
-            }
-        });
-    }
-
-    @Override
-    public void getCategory(long id, final IDbHandler<Category> handler) {
-        Uri.Builder builder = baseBuilder()
-                .appendQueryParameter("action", GET_CATEOGRY)
-                .appendQueryParameter("id", Long.toString(id));
-        String url = builder.build().toString();
-
-        _reader.getWebsiteContent(url, new IWebsiteReader.IWebsiteHandler() {
-            @Override
-            public void handle(String json) {
-                try {
-                    JSONObject obj = new JSONObject(json);
-                    handler.handle(_categoryParser.parse(obj));
-                } catch (Exception e) {
-                    Log.e("getCategory", e.toString());
-                    handler.handle(null);
-                }
+                handler.handle(Objects.equals(json, "1"));
             }
         });
     }
@@ -245,29 +177,10 @@ public class WebDatabaseProvider implements IDatabaseProvider {
                     }
                 } catch (Exception e) {
                     Log.e("getCategories", e.toString());
+                    handler.handle(null);
+                    return;
                 }
                 handler.handle(categories);
-            }
-        });
-    }
-
-    @Override
-    public void deleteCategory(long id, final IDbHandler<Boolean> handler) {
-        Uri.Builder builder = baseBuilder()
-                .appendQueryParameter("action", DELETE_CATEGORY)
-                .appendQueryParameter("userId", Long.toString(id));
-        String url = builder.build().toString();
-
-        _reader.getWebsiteContent(url, new IWebsiteReader.IWebsiteHandler() {
-            @Override
-            public void handle(String json) {
-                try {
-                    JSONObject obj = new JSONObject(json);
-                    handler.handle(obj.getInt("rows") > 0);
-                } catch (Exception e) {
-                    Log.e("deleteCategory", e.toString());
-                    handler.handle(false);
-                }
             }
         });
     }
@@ -311,6 +224,8 @@ public class WebDatabaseProvider implements IDatabaseProvider {
                     }
                 } catch (Exception e) {
                     Log.e("getReportsForUser", e.toString());
+                    handler.handle(null);
+                    return;
                 }
                 handler.handle(reports);
             }
@@ -348,7 +263,7 @@ public class WebDatabaseProvider implements IDatabaseProvider {
         _reader.getWebsiteContent(url, new IWebsiteReader.IWebsiteHandler() {
             @Override
             public void handle(String json) {
-                handler.handle(!Objects.equals(json, "-1"));
+                handler.handle(Objects.equals(json, "1"));
             }
         });
     }
@@ -392,6 +307,8 @@ public class WebDatabaseProvider implements IDatabaseProvider {
                     }
                 } catch (Exception e) {
                     Log.e("getCommentsForReport", e.toString());
+                    handler.handle(null);
+                    return;
                 }
                 handler.handle(comments);
             }
@@ -416,6 +333,8 @@ public class WebDatabaseProvider implements IDatabaseProvider {
                     }
                 } catch (Exception e) {
                     Log.e("getImagesForReport", e.toString());
+                    handler.handle(null);
+                    return;
                 }
                 handler.handle(images);
             }
@@ -440,6 +359,8 @@ public class WebDatabaseProvider implements IDatabaseProvider {
                     }
                 } catch (Exception e) {
                     Log.e("getVoicenotesForReport", e.toString());
+                    handler.handle(null);
+                    return;
                 }
                 handler.handle(voicenotes);
             }
@@ -464,117 +385,10 @@ public class WebDatabaseProvider implements IDatabaseProvider {
                     }
                 } catch (Exception e) {
                     Log.e("getFilesForReport", e.toString());
+                    handler.handle(null);
+                    return;
                 }
                 handler.handle(files);
-            }
-        });
-    }
-
-    @Override
-    public void getFile(long id, final IDbHandler<UploadedFile> handler) {
-        Uri.Builder builder = baseBuilder()
-                .appendQueryParameter("action", "getFile")
-                .appendQueryParameter("id", Long.toString(id));
-        String url = builder.build().toString();
-
-        _reader.getWebsiteContent(url, new IWebsiteReader.IWebsiteHandler() {
-            @Override
-            public void handle(String json) {
-                try {
-                    JSONObject obj = new JSONObject(json);
-                    handler.handle(_fileParser.parse(obj));
-                } catch (Exception e) {
-                    Log.e("getFile", e.toString());
-                    handler.handle(null);
-                }
-            }
-        });
-    }
-
-    @Override
-    public void addComment(Comment comment, final IDbHandler<Long> handler) {
-        Uri.Builder builder = baseBuilder()
-                .appendQueryParameter("action", "addComment")
-                .appendQueryParameter("reportId", Long.toString(comment.getReportId()))
-                .appendQueryParameter("body", comment.getBody());
-        String url = builder.build().toString();
-
-        _reader.getWebsiteContent(url, new IWebsiteReader.IWebsiteHandler() {
-            @Override
-            public void handle(String json) {
-                try {
-                    JSONObject obj = new JSONObject(json);
-                    handler.handle(obj.getLong("id"));
-                } catch (Exception e) {
-                    Log.e("addComment", e.toString());
-                    handler.handle((long) -1);
-                }
-            }
-        });
-    }
-
-    @Override
-    public void addImage(Image image, final IDbHandler<Long> handler) {
-        Uri.Builder builder = baseBuilder()
-                .appendQueryParameter("action", "addImage")
-                .appendQueryParameter("reportId", Long.toString(image.getReportId()))
-                .appendQueryParameter("bytes", image.getBytes().toString());
-        String url = builder.build().toString();
-
-        _reader.getWebsiteContent(url, new IWebsiteReader.IWebsiteHandler() {
-            @Override
-            public void handle(String json) {
-                try {
-                    JSONObject obj = new JSONObject(json);
-                    handler.handle(obj.getLong("id"));
-                } catch (Exception e) {
-                    Log.e("addImage", e.toString());
-                    handler.handle((long) -1);
-                }
-            }
-        });
-    }
-
-    @Override
-    public void addVoicenote(Voicenote voicenote, final IDbHandler<Long> handler) {
-        Uri.Builder builder = baseBuilder()
-                .appendQueryParameter("action", "addVoicenote")
-                .appendQueryParameter("reportId", Long.toString(voicenote.getReportId()))
-                .appendQueryParameter("bytes", voicenote.getBytes().toString());
-        String url = builder.build().toString();
-
-        _reader.getWebsiteContent(url, new IWebsiteReader.IWebsiteHandler() {
-            @Override
-            public void handle(String json) {
-                try {
-                    JSONObject obj = new JSONObject(json);
-                    handler.handle(obj.getLong("id"));
-                } catch (Exception e) {
-                    Log.e("addVoicenote", e.toString());
-                    handler.handle((long) -1);
-                }
-            }
-        });
-    }
-
-    @Override
-    public void addFile(UploadedFile file, final IDbHandler<Long> handler) {
-        Uri.Builder builder = baseBuilder()
-                .appendQueryParameter("action", "addFile")
-                .appendQueryParameter("reportId", Long.toString(file.getReportId()))
-                .appendQueryParameter("bytes", file.getBytes().toString())
-                .appendQueryParameter("name", file.getName());
-        String url = builder.build().toString();
-
-        _reader.getWebsiteContent(url, new IWebsiteReader.IWebsiteHandler() {
-            @Override
-            public void handle(String json) {try {
-                JSONObject obj = new JSONObject(json);
-                handler.handle(obj.getLong("id"));
-            } catch (Exception e) {
-                Log.e("addFile", e.toString());
-                handler.handle((long) -1);
-            }
             }
         });
     }

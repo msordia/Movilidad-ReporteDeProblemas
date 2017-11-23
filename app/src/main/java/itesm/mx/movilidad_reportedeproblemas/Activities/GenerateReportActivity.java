@@ -96,6 +96,12 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
         _db.getCategories(new IDatabaseProvider.IDbHandler<ArrayList<Category>>() {
             @Override
             public void handle(ArrayList<Category> result) {
+                if (result == null) {
+                    Log.e("GenerateReportActivity", "Could not get categories.");
+                    Toast.makeText(getApplicationContext(), "Hubo un problema con la conexion con el servidor. Intente de nuevo.", Toast.LENGTH_SHORT).show();
+                    finish();
+                    return;
+                }
                 CategoryAdapter adapter = new CategoryAdapter(self, result);
                 spinner.setAdapter(adapter);
             }
@@ -181,6 +187,11 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
         }
 
         Category category = (Category) spinner.getSelectedItem();
+        if (category == null) {
+            Log.e("GenerateReportActivity", "No category was chosen.");
+            Toast.makeText(this, "Selecciona una categoria.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         final Report report = new Report();
         report.setCategory(category);

@@ -18,15 +18,11 @@ import itesm.mx.movilidad_reportedeproblemas.Models.Voicenote;
  */
 
 public interface IDatabaseProvider {
-    void getReport(long id, IDbHandler<Report> handler);
     void getReports(IDbHandler<ArrayList<Report>> handler);
-    void deleteReport(long id, IDbHandler<Boolean> handler);
     void addReport(Report report, IDbHandler<Long> handler);
     void updateStatus(long id, int status, IDbHandler<Boolean> handler);
 
-    void getCategory(long id, IDbHandler<Category> handler);
     void getCategories(IDbHandler<ArrayList<Category>> handler);
-    void deleteCategory(long id, IDbHandler<Boolean> handler);
     void addCategory(Category cateogry, IDbHandler<Long> handler);
 
     void getReportsForUser(String userId, IDbHandler<ArrayList<Report>> handler);
@@ -40,14 +36,7 @@ public interface IDatabaseProvider {
     void getVoicenotesForReport(long reportId, IDbHandler<ArrayList<Voicenote>> handler);
     void getFilesForReport(long reportId, IDbHandler<ArrayList<UploadedFile>> handler);
 
-    void getFile(long id, IDbHandler<UploadedFile> handler);
-
-    void addComment(Comment comment, IDbHandler<Long> handler);
-    void addImage(Image image, IDbHandler<Long> handler);
-    void addVoicenote(Voicenote voicenote, IDbHandler<Long> handler);
-    void addFile(UploadedFile file, IDbHandler<Long> handler);
-
-    public interface IDbHandler<T> {
+    interface IDbHandler<T> {
         void handle(T result);
     }
 }

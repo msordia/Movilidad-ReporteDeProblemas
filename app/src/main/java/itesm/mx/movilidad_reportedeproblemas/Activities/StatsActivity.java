@@ -4,6 +4,7 @@ import android.support.v4.app.FragmentManager;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
 import android.widget.Toast;
@@ -45,6 +46,12 @@ public class StatsActivity extends AppCompatActivity {
         _db.getReports(new IDatabaseProvider.IDbHandler<ArrayList<Report>>() {
             @Override
             public void handle(ArrayList<Report> result) {
+                if (result == null) {
+                    Log.e("StatsActivity", "Could not get reports.");
+                    Toast.makeText(getApplicationContext(), "Hubo un problema con la conexion con el servidor. Intente de nuevo.", Toast.LENGTH_SHORT).show();
+                    finish();
+                    return;
+                }
                 Map<Integer, Integer> statusCounter = new HashMap<>();
                 Map<Long, Integer> categoryCounter = new HashMap<>();
                 for (Report report : result) {

@@ -47,8 +47,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    protected void onStart(){
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
+        _loginProvider.logout();
         btnLogin.setEnabled(true);
     }
 
