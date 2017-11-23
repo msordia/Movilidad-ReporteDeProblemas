@@ -78,13 +78,13 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
     private IStringManager _fileManager = new HashStringManager();
     private IFileReader _fileReader = new FileReader();
     private ILoginProvider _loginProvider = DummyLoginProvider.getInstance();
+    private EmailSender _mailer = new EmailSender();
 
     private GenerateReportActivity self = this;
 
     private Spinner spinner;
     private ViewGroup vgExtras;
     private Button btnGenerate;
-    public EmailSender NewEmail = new EmailSender();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,9 +132,7 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
         switch (view.getId()) {
             case R.id.button_generateReport:
             {
-                NewEmail.sendEmail();
                 generateReport();
-
             }
                 break;
             case R.id.button_generateReport_photo:
@@ -231,6 +229,7 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
                     Toast.makeText(getApplicationContext(), "Hubo un error al subir el reporte.", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                _mailer.sendEmail("Se ha generado el reporte #" + result + " con éxito", _loginProvider.getCurrentUser().getId() + "@itesm.mx");
                 showSuccess(result);
             }
         });

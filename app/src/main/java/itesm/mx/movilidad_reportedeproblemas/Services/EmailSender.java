@@ -1,6 +1,7 @@
 package itesm.mx.movilidad_reportedeproblemas.Services;
 
 import android.os.StrictMode;
+import android.util.Log;
 
 import java.util.Properties;
 
@@ -11,23 +12,14 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-/**
- * Created by armando on 17/11/17.
- * Esta clase manda correos.
- */
-
 public class EmailSender {
 
-    String correo;
-    String contraseña;
-    Session session;
+    private static final String EMAIL = "reportes.movilidad.tec@gmail.com";
+    private static final String PASSWORD = "reportes";
 
 
-    public void sendEmail()
+    public void sendEmail(String messageString, String... to)
     {
-        correo="reportes.movilidad.tec@gmail.com";
-        contraseña="reportes";
-
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         Properties properties = new Properties();
@@ -38,25 +30,26 @@ public class EmailSender {
         properties.put("mail.smtp.port","465");
 
         try{
-            session=Session.getDefaultInstance(properties, new Authenticator() {
+            Session session = Session.getDefaultInstance(properties, new Authenticator() {
                 @Override
                 protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(correo,contraseña);
+                    return new PasswordAuthentication(EMAIL, PASSWORD);
                 }
             });
 
-            if(session!=null)
+            if(session != null)
             {
                 javax.mail.Message message = new MimeMessage(session);
-                message.setFrom(new InternetAddress(correo));
+                message.setFrom(new InternetAddress(EMAIL));
                 message.setSubject("Se genero un nuevo reporte");
-                message.setRecipients(javax.mail.Message.RecipientType.TO,InternetAddress.parse("reportes.movilidad.tec@gmail.com"));
-                message.setContent("Tu reporte se ha generado con éxito","text/html; charset=utf-8");
+                for (String recipient : to) {
+                    message.addRecipient(javax.mail.Message.RecipientType.TO,InternetAddress.parse(recipient)[0]);
+                }
+                message.addRecipient(javax.mail.Message.RecipientType.TO,InternetAddress.parse(EMAIL)[0]);
+                message.setContent(messageString,"text/html; charset=utf-8");
                 Transport.send(message);
-
+                Log.d("EmailSender", "Mail sent to: " + message.getAllRecipients().toString());
             }
-
-
         }
         catch (Exception e){
             e.printStackTrace();
