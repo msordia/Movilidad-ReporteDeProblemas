@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.Map;
 import itesm.mx.movilidad_reportedeproblemas.Fragments.KmeansMapFragment;
 import itesm.mx.movilidad_reportedeproblemas.Fragments.PieChartFragment;
 import itesm.mx.movilidad_reportedeproblemas.Fragments.ScrollFriendlySupportMapFragment;
+import itesm.mx.movilidad_reportedeproblemas.Models.Category;
 import itesm.mx.movilidad_reportedeproblemas.Models.Report;
 import itesm.mx.movilidad_reportedeproblemas.R;
 import itesm.mx.movilidad_reportedeproblemas.Services.IDatabaseProvider.IDatabaseProvider;
@@ -38,6 +40,7 @@ public class StatsActivity extends AppCompatActivity {
 
     ScrollView layScrollView;
     ViewGroup vgFragments;
+    TextView tvTotal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,7 @@ public class StatsActivity extends AppCompatActivity {
 
         layScrollView = findViewById(R.id.layout_stats_scrollView);
         vgFragments = findViewById(R.id.layout_stats_charts);
+        tvTotal = findViewById(R.id.text_stats_total);
     }
 
     @Override
@@ -53,15 +57,16 @@ public class StatsActivity extends AppCompatActivity {
         super.onResume();
         _db.getReports(new IDatabaseProvider.IDbHandler<ArrayList<Report>>() {
             @Override
-            public void handle(ArrayList<Report> result) {
+            public void handle(final ArrayList<Report> result) {
                 if (result == null) {
                     Log.e("StatsActivity", "Could not get reports.");
                     Toast.makeText(getApplicationContext(), "Hubo un problema con la conexion con el servidor. Intente de nuevo.", Toast.LENGTH_SHORT).show();
                     finish();
                     return;
                 }
+                tvTotal.setText("Total de reportes: " + result.size());
                 Map<Integer, Integer> statusCounter = new HashMap<>();
-                Map<Long, Integer> categoryCounter = new HashMap<>();
+                final Map<Long, Integer> categoryCounter = new HashMap<>();
                 for (Report report : result) {
                     if (!statusCounter.containsKey(report.getStatus()))
                         statusCounter.put(report.getStatus(), 0);
@@ -72,34 +77,53 @@ public class StatsActivity extends AppCompatActivity {
                     categoryCounter.put(report.getCategoryId(), categoryCounter.get(report.getCategoryId()) + 1);
                 }
 
-                List<Tuple<Tuple<String,Double>,Integer>> statuses = new ArrayList<>();
+                final List<Tuple<Tuple<String,Double>,Integer>> statuses = new ArrayList<>();
                 for (int status : statusCounter.keySet()) {
                     statuses.add(new Tuple<>(new Tuple<>(StatusParser.Parse(status), (double) statusCounter.get(status)), StatusColorMatcher.getColor(status)));
                 }
 
-                List<Tuple<Tuple<String,Double>,Integer>> categories = new ArrayList<>();
-                int[] colors = new int[] {Color.BLUE, Color.CYAN, Color.MAGENTA, Color.YELLOW, Color.GREEN};
-                int i = 0;
-                for (long categoryId : categoryCounter.keySet()) {
-                    categories.add(new Tuple<>(new Tuple<>(Long.toString(categoryId), (double) categoryCounter.get(categoryId)), colors[i++ % colors.length]));
-                }
-
-                FragmentManager manager = getSupportFragmentManager();
-                vgFragments.removeAllViews();
-                if (result.size() != 0) {
-                    KmeansMapFragment kmeansFragment = KmeansMapFragment.newInstance(result);
-                    kmeansFragment.setListener(new ScrollFriendlySupportMapFragment.OnTouchListener() {
-                        @Override
-                        public void onTouch() {
-                            layScrollView.requestDisallowInterceptTouchEvent(true);
+                _db.getCategories(new IDatabaseProvider.IDbHandler<ArrayList<Category>>() {
+                    @Override
+                    public void handle(ArrayList<Category> innerResult) {
+                        if (innerResult == null) {
+                            Log.e("StatsActivity", "Could not get categories.");
+                            Toast.makeText(getApplicationContext(), "Hubo un problema con la conexion con el servidor. Intente de nuevo.", Toast.LENGTH_SHORT).show();
+                            finish();
+                            return;
                         }
-                    });
-                    manager.beginTransaction().add(vgFragments.getId(), kmeansFragment).commit();
-                    manager.beginTransaction().add(vgFragments.getId(), PieChartFragment.newInstance(statuses)).commit();
-                    manager.beginTransaction().add(vgFragments.getId(), PieChartFragment.newInstance(categories)).commit();
-                } else {
-                    Toast.makeText(getApplicationContext(), "No hay reportes que mostrar; puede haber un problema de conexion con el servidor.", Toast.LENGTH_SHORT).show();
-                }
+                        int i = 0;
+                        List<Tuple<Tuple<String,Double>,Integer>> categories = new ArrayList<>();
+                        int[] colors = new int[] {Color.BLUE, Color.CYAN, Color.MAGENTA, Color.YELLOW, Color.GREEN};
+
+                        for (long categoryId : categoryCounter.keySet()) {
+                            String name = "";
+                            for (Category category : innerResult) {
+                                if (category.getId() == categoryId) {
+                                    name = category.getName();
+                                    break;
+                                }
+                            }
+                            categories.add(new Tuple<>(new Tuple<>(name, (double) categoryCounter.get(categoryId)), colors[i++ % colors.length]));
+                        }
+
+                        FragmentManager manager = getSupportFragmentManager();
+                        vgFragments.removeAllViews();
+                        if (result.size() != 0) {
+                            KmeansMapFragment kmeansFragment = KmeansMapFragment.newInstance(result);
+                            kmeansFragment.setListener(new ScrollFriendlySupportMapFragment.OnTouchListener() {
+                                @Override
+                                public void onTouch() {
+                                    layScrollView.requestDisallowInterceptTouchEvent(true);
+                                }
+                            });
+                            manager.beginTransaction().add(vgFragments.getId(), kmeansFragment).commit();
+                            manager.beginTransaction().add(vgFragments.getId(), PieChartFragment.newInstance(statuses, "Reportes por estatus")).commit();
+                            manager.beginTransaction().add(vgFragments.getId(), PieChartFragment.newInstance(categories, "Reportes por categoria")).commit();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "No hay reportes que mostrar; puede haber un problema de conexion con el servidor.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         });
     }

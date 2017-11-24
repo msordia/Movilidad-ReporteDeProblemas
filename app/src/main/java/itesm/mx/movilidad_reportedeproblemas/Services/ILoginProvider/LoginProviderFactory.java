@@ -6,7 +6,7 @@ package itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider;
 
 public final class LoginProviderFactory {
     public static ILoginProvider getDefaultInstance() {
-        return DummyLoginProvider.getInstance();
+        return ServerLoginProvider.getInstance();
     }
 
     private LoginProviderFactory() {}

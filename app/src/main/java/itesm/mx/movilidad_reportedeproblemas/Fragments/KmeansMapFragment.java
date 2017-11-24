@@ -137,7 +137,7 @@ public class KmeansMapFragment extends Fragment implements OnMapReadyCallback, G
             points.add(point);
         }
 
-        _kmeans.solve(Math.max(points.size() / 4, 1), points, new IKMeans.OnKmeansFinishedListener() {
+        _kmeans.solve(Math.max(points.size() / 3, 1), points, new IKMeans.OnKmeansFinishedListener() {
             @Override
             public void onKmeansFinished(ArrayList<IKMeans.Cluster> points) {
                 _markers = new ArrayList<>();

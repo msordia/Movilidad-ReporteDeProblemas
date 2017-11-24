@@ -24,14 +24,14 @@ import itesm.mx.movilidad_reportedeproblemas.Models.User;
 
 public class ServerLoginProvider implements ILoginProvider, ILoginProvider.ILoginHandler {
     private ILoginHandler _handler;
-
-
     private static final String URL_STRING = "https://alsvdbw01.itesm.mx/autentica/servicio/identidad";
-
     private static User _user = null;
+    private static ServerLoginProvider _instance = new ServerLoginProvider();
+    public static ServerLoginProvider getInstance() {
+        return _instance;
+    }
 
-    public ServerLoginProvider(ILoginHandler handler) {
-        _handler = handler;
+    private ServerLoginProvider() {
     }
 
     @Override
@@ -41,7 +41,7 @@ public class ServerLoginProvider implements ILoginProvider, ILoginProvider.ILogi
             return;
         }
 
-        new LoadCredentials(username, password, this).execute(URL_STRING);
+        new LoadCredentials(username, password, handler).execute(URL_STRING);
     }
 
     @Override
@@ -157,6 +157,7 @@ public class ServerLoginProvider implements ILoginProvider, ILoginProvider.ILogi
                     } else {
                         alumno = xmlParser.parse(respuesta.inString);
                         handler.handle(alumno.getMatricula(), alumno.getNombre(), true);
+                        _user = new User(alumno.getMatricula(), alumno.getNombre());
                         return;
                     }
                 }

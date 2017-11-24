@@ -31,10 +31,12 @@ public class PieChartFragment extends Fragment {
     private static final String ARG_VALUES = "values";
     private static final String ARG_NAMES = "names";
     private static final String ARG_COLORS = "colors";
+    private static final String ARG_TITLE = "title";
 
     private double[] _values;
     private String[] _names;
     private int[] _colors;
+    private String _title;
 
     private GraphicalView _chart;
     private DefaultRenderer _renderer = new DefaultRenderer();
@@ -42,7 +44,7 @@ public class PieChartFragment extends Fragment {
 
     public PieChartFragment() { }
 
-    public static PieChartFragment newInstance(Collection<Tuple<Tuple<String,Double>, Integer>> pairs) {
+    public static PieChartFragment newInstance(Collection<Tuple<Tuple<String,Double>, Integer>> pairs, String title) {
         PieChartFragment fragment = new PieChartFragment();
         Bundle args = new Bundle();
 
@@ -59,6 +61,7 @@ public class PieChartFragment extends Fragment {
         args.putDoubleArray(ARG_VALUES, values);
         args.putStringArray(ARG_NAMES, names);
         args.putIntArray(ARG_COLORS, colors);
+        args.putString(ARG_TITLE, title);
 
         fragment.setArguments(args);
         return fragment;
@@ -71,6 +74,7 @@ public class PieChartFragment extends Fragment {
             _values = getArguments().getDoubleArray(ARG_VALUES);
             _names = getArguments().getStringArray(ARG_NAMES);
             _colors = getArguments().getIntArray(ARG_COLORS);
+            _title = getArguments().getString(ARG_TITLE);
         }
     }
 
@@ -88,9 +92,10 @@ public class PieChartFragment extends Fragment {
         _renderer.setStartAngle(90);
         _renderer.setInScroll(false);
         _renderer.setShowLegend(false);
+        _renderer.setChartTitle(_title);
 
         for (int i = 0; i < _values.length; i++) {
-            _series.add(_names[i] + ": " + _values[i], _values[i]);
+            _series.add(_names[i] + ": " + fmt(_values[i]), _values[i]);
             SimpleSeriesRenderer renderer = new SimpleSeriesRenderer();
             renderer.setColor(_colors[i]);
             _renderer.addSeriesRenderer(renderer);
@@ -116,6 +121,14 @@ public class PieChartFragment extends Fragment {
         else {
             _chart.repaint();
         }
+    }
+
+    private static String fmt(double d)
+    {
+        if(d == (long) d)
+            return String.format("%d",(long)d);
+        else
+            return String.format("%s",d);
     }
 
 }
