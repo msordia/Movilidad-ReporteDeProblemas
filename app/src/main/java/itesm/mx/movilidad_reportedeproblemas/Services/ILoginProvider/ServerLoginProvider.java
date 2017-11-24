@@ -22,7 +22,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 import itesm.mx.movilidad_reportedeproblemas.Models.User;
 
-public class ServerLoginProvider implements ILoginProvider, ILoginProvider.ILoginHandler {
+public class ServerLoginProvider implements ILoginProvider {
     private ILoginHandler _handler;
     private static final String URL_STRING = "https://alsvdbw01.itesm.mx/autentica/servicio/identidad";
     private static User _user = null;
@@ -41,6 +41,12 @@ public class ServerLoginProvider implements ILoginProvider, ILoginProvider.ILogi
             return;
         }
 
+        if (android.os.Build.VERSION.SDK_INT == 24) {
+            handler.handle("","",false);
+            Log.e("ServerLoginProvider", "SDK 24 blocked due to incompatibility with server.");
+            return;
+        }
+
         new LoadCredentials(username, password, handler).execute(URL_STRING);
     }
 
@@ -52,20 +58,6 @@ public class ServerLoginProvider implements ILoginProvider, ILoginProvider.ILogi
     @Override
     public void logout() {
         _user = null;
-    }
-
-    @Override
-    public void handle(String username, String name, boolean result) {
-        if (result) {
-            _user = new User(username, name);
-        }
-
-        _handler.handle(username, name, result);
-    }
-
-    @Override
-    public Context getContext() {
-        return _handler.getContext();
     }
 
     private class LoadCredentials extends AsyncTask<String, Integer, LoadCredentials.Result> {

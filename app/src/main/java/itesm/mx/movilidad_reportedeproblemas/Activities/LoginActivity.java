@@ -67,8 +67,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String username = etUser.getText().toString();
         String password = etPassword.getText().toString();
 
-        _loginProvider.login(username, password, this);
         btnLogin.setEnabled(false);
+        _loginProvider.login(username, password, this);
     }
 
     @Override
