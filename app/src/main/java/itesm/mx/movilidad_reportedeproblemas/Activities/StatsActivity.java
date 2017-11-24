@@ -25,6 +25,14 @@ import itesm.mx.movilidad_reportedeproblemas.Services.StatusColorMatcher;
 import itesm.mx.movilidad_reportedeproblemas.Services.StatusParser;
 import itesm.mx.movilidad_reportedeproblemas.Services.Tuple;
 
+//////////////////////////////////////////////////////////
+//Clase: StatsActivity
+// Descripción: Se muestra el status de los reportes.
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
 public class StatsActivity extends AppCompatActivity {
     private WebDatabaseProvider _db = new WebDatabaseProvider();
 

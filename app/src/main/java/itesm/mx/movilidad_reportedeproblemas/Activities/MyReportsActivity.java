@@ -23,6 +23,14 @@ import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.GetLoginPro
 import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.ILoginProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.LoginProviderFactory;
 
+//////////////////////////////////////////////////////////
+//Clase: MyReportsAcitivity
+// Descripción: Esta actividad muestra los reportes que se tienen.
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
 public class MyReportsActivity extends AppCompatActivity {
 
     private LinearLayout list;

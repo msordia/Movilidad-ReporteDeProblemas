@@ -15,6 +15,14 @@ import java.util.List;
 import itesm.mx.movilidad_reportedeproblemas.Models.Category;
 import itesm.mx.movilidad_reportedeproblemas.R;
 
+//////////////////////////////////////////////////////////
+//Clase: CategoryAdapter
+// Descripción: Adaptador para las categorias.
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
 public class CategoryAdapter extends ArrayAdapter<Category> {
     public CategoryAdapter(@NonNull Context context, @NonNull List<Category> categories) {
         super(context, 0, categories);

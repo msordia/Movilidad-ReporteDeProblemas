@@ -16,6 +16,14 @@ import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.GetLoginPro
 import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.ILoginProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.LoginProviderFactory;
 
+//////////////////////////////////////////////////////////
+//Clase: ManageAdminsActivity
+// Descripción: Se aministran los admin de la aplicación.
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
 public class ManageAdminsActivity extends AppCompatActivity implements View.OnClickListener {
     private IDatabaseProvider _db = new WebDatabaseProvider();
     private ILoginProvider _loginProvider = LoginProviderFactory.getDefaultInstance();

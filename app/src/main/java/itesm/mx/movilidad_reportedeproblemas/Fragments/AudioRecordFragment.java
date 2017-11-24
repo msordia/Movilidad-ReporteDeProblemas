@@ -21,7 +21,13 @@ import itesm.mx.movilidad_reportedeproblemas.Services.IAudioRecorder.IAudioRecor
 import itesm.mx.movilidad_reportedeproblemas.Services.IBitmapManager.IByteArrayManager;
 import itesm.mx.movilidad_reportedeproblemas.Services.IContainer;
 import itesm.mx.movilidad_reportedeproblemas.Services.PermissionChecker;
-
+//////////////////////////////////////////////////////////
+//Clase: AudioRecordFragment
+// Descripción: Fragmento para agregar sonido.
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
 
 public class AudioRecordFragment extends android.app.Fragment {
     private IByteArrayManager _byteArrayManager;

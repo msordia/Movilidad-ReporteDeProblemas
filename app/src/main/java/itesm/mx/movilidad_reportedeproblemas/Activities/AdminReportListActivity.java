@@ -29,6 +29,14 @@ import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.DummyLoginP
 import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.GetLoginProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.ILoginProvider;
 
+//////////////////////////////////////////////////////////
+//Clase: AdminReportListAcitivity
+// Descripción: Aqui se despliegan la lista de reportes.
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
 public class AdminReportListActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
     private LinearLayout list;
 

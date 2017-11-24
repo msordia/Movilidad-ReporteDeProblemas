@@ -19,6 +19,15 @@ import itesm.mx.movilidad_reportedeproblemas.R;
 import itesm.mx.movilidad_reportedeproblemas.Services.IBitmapManager.IByteArrayManager;
 import itesm.mx.movilidad_reportedeproblemas.Services.IContainer;
 
+//////////////////////////////////////////////////////////
+//Clase: TakePhotoFragment
+// Descripción: Fragmento para tomar fotos.
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
+
 public class TakePhotoFragment extends android.app.Fragment {
     private static final String ARG_BITMAP = "bitmap";
 

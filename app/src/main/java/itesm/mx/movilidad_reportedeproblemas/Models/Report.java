@@ -9,6 +9,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+//////////////////////////////////////////////////////////
+//Clase: Report
+// Descripción: Modelo para levantar reportes.
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
 public class Report implements Parcelable {
     public static final int STATUS_PENDING = 1;
     public static final int STATUS_IN_PROCESS = 2;

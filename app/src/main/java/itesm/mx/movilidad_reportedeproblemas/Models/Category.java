@@ -3,9 +3,14 @@ package itesm.mx.movilidad_reportedeproblemas.Models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by juanc on 10/31/2017.
- */
+//////////////////////////////////////////////////////////
+//Clase: Category
+// Descripción: Modelo para las diferentes categorias
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
 
 public class Category implements Parcelable {
     private long id;

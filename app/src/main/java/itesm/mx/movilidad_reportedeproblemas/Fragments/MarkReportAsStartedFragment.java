@@ -15,6 +15,14 @@ import itesm.mx.movilidad_reportedeproblemas.Services.IContainer;
 import itesm.mx.movilidad_reportedeproblemas.Services.IDatabaseProvider.IDatabaseProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.IDatabaseProvider.WebDatabaseProvider;
 
+//////////////////////////////////////////////////////////
+//Clase: MarkReportAsStartedFragment
+// Descripción: Fragmento para marcar los reportes como listos.
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
 
 public class MarkReportAsStartedFragment extends android.app.Fragment {
     private static final String ARG_REPORT_ID = "reportId";

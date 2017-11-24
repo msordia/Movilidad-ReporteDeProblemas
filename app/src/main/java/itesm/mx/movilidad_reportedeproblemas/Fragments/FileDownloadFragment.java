@@ -13,6 +13,14 @@ import itesm.mx.movilidad_reportedeproblemas.Services.IFileSaver.DownloadsFileSa
 import itesm.mx.movilidad_reportedeproblemas.Services.IFileSaver.IFileSaver;
 import itesm.mx.movilidad_reportedeproblemas.Services.WebFileReader;
 
+//////////////////////////////////////////////////////////
+//Clase: FileDownloadFragment
+// Descripción: Fragmento para descargar los archivos.
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
 public class FileDownloadFragment extends android.app.Fragment {
     private static final String ARG_NAME = "name";
 

@@ -12,6 +12,15 @@ import org.w3c.dom.Text;
 import itesm.mx.movilidad_reportedeproblemas.Models.Comment;
 import itesm.mx.movilidad_reportedeproblemas.R;
 
+//////////////////////////////////////////////////////////
+//Clase: PieChartFragment
+// Descripción: Fragmento para ver los comentarios.
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
+
 public class ViewCommentFragment extends android.app.Fragment {
     private static final String ARG_COMMENT = "comment";
 

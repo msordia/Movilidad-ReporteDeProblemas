@@ -22,6 +22,14 @@ import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.LoginProvid
 import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.ServerLoginProvider;
 import itesm.mx.movilidad_reportedeproblemas.Services.PermissionChecker;
 
+//////////////////////////////////////////////////////////
+//Clase: LoginActivity
+// Descripción: Inicio de sesión dependiendo si es admin o usuario
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, ILoginProvider.ILoginHandler {
     private ILoginProvider _loginProvider = LoginProviderFactory.getDefaultInstance();
     private IDatabaseProvider _db = new WebDatabaseProvider();

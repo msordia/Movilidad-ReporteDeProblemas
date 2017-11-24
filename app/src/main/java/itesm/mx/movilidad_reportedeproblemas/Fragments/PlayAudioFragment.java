@@ -17,6 +17,15 @@ import itesm.mx.movilidad_reportedeproblemas.Services.AudioDurationFinder;
 import itesm.mx.movilidad_reportedeproblemas.Services.IAudioPlayer.AudioPlayer;
 import itesm.mx.movilidad_reportedeproblemas.Services.IAudioPlayer.IAudioPlayer;
 
+//////////////////////////////////////////////////////////
+//Clase: PlayAudioFragment
+// Descripción: Fragmento para reproducir audio
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
+
 public class PlayAudioFragment extends android.app.Fragment {
     private static final String ARG_AUDIO = "audio";
 

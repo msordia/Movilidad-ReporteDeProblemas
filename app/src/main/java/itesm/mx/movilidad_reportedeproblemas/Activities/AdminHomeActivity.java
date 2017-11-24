@@ -14,7 +14,16 @@ import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.ILoginProvi
 import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.LoginProviderFactory;
 
 public class AdminHomeActivity extends AppCompatActivity {
+
+//////////////////////////////////////////////////////////
+//Clase: AdminHomeActivity
+// Descripción: La pagina principal para el administrador.
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
     private ILoginProvider _loginProvider = LoginProviderFactory.getDefaultInstance();
+
 
     TextView tvName;
     Button btnAdminister;

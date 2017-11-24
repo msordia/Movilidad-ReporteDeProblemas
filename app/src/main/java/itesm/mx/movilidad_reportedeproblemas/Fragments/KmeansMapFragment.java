@@ -1,5 +1,13 @@
 package itesm.mx.movilidad_reportedeproblemas.Fragments;
 
+//////////////////////////////////////////////////////////
+//Clase: KmeansMapFragment
+// Descripción: Fragmento para el mapa.
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;

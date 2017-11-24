@@ -41,6 +41,14 @@ import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.LoginProvid
 import itesm.mx.movilidad_reportedeproblemas.Services.StatusParser;
 import itesm.mx.movilidad_reportedeproblemas.Services.WebFileReader;
 
+//////////////////////////////////////////////////////////
+//Clase: ReportDetailActivity
+// Descripción: Se muestra el detalle del reporte.
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
 public class ReportDetailActivity extends AppCompatActivity implements IContainer, OnMapReadyCallback {
     public final static String EXTRA_REPORT = "report";
 

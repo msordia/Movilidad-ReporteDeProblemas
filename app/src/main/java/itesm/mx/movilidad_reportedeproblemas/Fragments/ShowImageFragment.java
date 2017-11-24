@@ -12,6 +12,15 @@ import android.widget.ImageView;
 
 import itesm.mx.movilidad_reportedeproblemas.R;
 
+//////////////////////////////////////////////////////////
+//Clase: ShowImageFragment
+// Descripción: Fragmento para mostrar imagenes.
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
+
 public class ShowImageFragment extends android.app.Fragment {
     private static final String ARG_BYTES = "bytes";
 

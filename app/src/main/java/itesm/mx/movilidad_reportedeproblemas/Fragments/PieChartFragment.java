@@ -19,6 +19,14 @@ import java.util.Collection;
 import itesm.mx.movilidad_reportedeproblemas.R;
 import itesm.mx.movilidad_reportedeproblemas.Services.Tuple;
 
+//////////////////////////////////////////////////////////
+//Clase: PieChartFragment
+// Descripción: Fragmento para visualizar las graficas.
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
 public class PieChartFragment extends Fragment {
     private static final String ARG_VALUES = "values";
     private static final String ARG_NAMES = "names";

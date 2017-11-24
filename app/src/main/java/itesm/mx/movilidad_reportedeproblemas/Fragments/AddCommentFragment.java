@@ -15,6 +15,14 @@ import itesm.mx.movilidad_reportedeproblemas.R;
 import itesm.mx.movilidad_reportedeproblemas.Services.ICommentManager.IStringManager;
 import itesm.mx.movilidad_reportedeproblemas.Services.IContainer;
 
+//////////////////////////////////////////////////////////
+//Clase: AddComentFragment
+// Descripción: Fragmento para agregar comentarios.
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
 public class AddCommentFragment extends android.app.Fragment {
     private IStringManager _commentManager;
     private EditText etComment;

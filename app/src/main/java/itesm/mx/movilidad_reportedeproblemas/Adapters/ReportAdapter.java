@@ -16,9 +16,13 @@ import itesm.mx.movilidad_reportedeproblemas.Models.Category;
 import itesm.mx.movilidad_reportedeproblemas.Models.Report;
 import itesm.mx.movilidad_reportedeproblemas.R;
 
-/**
- * Created by juanc on 11/2/2017.
- */
+//////////////////////////////////////////////////////////
+//Clase: ReportAdapter
+// Descripción: Adaptador de reportes.
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
 
 public class ReportAdapter extends ArrayAdapter<Report> {
     public ReportAdapter(@NonNull Context context, @NonNull List<Report> reports) {

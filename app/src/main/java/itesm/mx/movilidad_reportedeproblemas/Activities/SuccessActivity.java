@@ -9,6 +9,14 @@ import android.widget.TextView;
 
 import itesm.mx.movilidad_reportedeproblemas.R;
 
+//////////////////////////////////////////////////////////
+//Clase: SuccessActivity
+// Descripción: Se muestra ña pagina de confirmación
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
 public class SuccessActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String EXTRA_REPORT_ID = "reportId";
 

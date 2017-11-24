@@ -60,8 +60,16 @@ import itesm.mx.movilidad_reportedeproblemas.Services.ILoginProvider.LoginProvid
 import itesm.mx.movilidad_reportedeproblemas.Services.PermissionChecker;
 import itesm.mx.movilidad_reportedeproblemas.Services.UriPathFinder;
 
+//////////////////////////////////////////////////////////
+//Clase: GenerateReportActivity
+// Descripción: Se generan los nuevos reportes
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
 public class GenerateReportActivity extends AppCompatActivity implements View.OnClickListener, IContainer{
-    //levantar reporte
+
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int PICK_FILE_RESULT_CODE = 2;

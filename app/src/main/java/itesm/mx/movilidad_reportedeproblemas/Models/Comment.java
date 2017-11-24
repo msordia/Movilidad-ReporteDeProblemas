@@ -3,9 +3,14 @@ package itesm.mx.movilidad_reportedeproblemas.Models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by juanc on 11/2/2017.
- */
+//////////////////////////////////////////////////////////
+//Clase: Comment
+// Descripción: Modelo para comentarios.
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
 
 public class Comment implements Parcelable {
     private long id;

@@ -16,6 +16,15 @@ import itesm.mx.movilidad_reportedeproblemas.Adapters.ReportAdapter;
 import itesm.mx.movilidad_reportedeproblemas.Models.Report;
 import itesm.mx.movilidad_reportedeproblemas.R;
 
+//////////////////////////////////////////////////////////
+//Clase: ReportListFragment
+// Descripción: Fragmento con la lista de reportes.
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
+
 public class ReportListFragment extends ListFragment {
     private static final String ARG_LIST = "list";
 

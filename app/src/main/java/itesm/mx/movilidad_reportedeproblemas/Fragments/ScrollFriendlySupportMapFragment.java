@@ -1,8 +1,13 @@
 package itesm.mx.movilidad_reportedeproblemas.Fragments;
 
-/**
- * Created by juanc on 11/17/2017.
- */
+//////////////////////////////////////////////////////////
+//Clase: ScrollFriendlySupportMapFragment
+// Descripción: Fragmento para hacer scroll.
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
 
 import android.content.Context;
 import android.os.Bundle;
