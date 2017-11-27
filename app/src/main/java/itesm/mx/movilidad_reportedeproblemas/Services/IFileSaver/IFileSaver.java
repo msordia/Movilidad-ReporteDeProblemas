@@ -2,9 +2,14 @@ package itesm.mx.movilidad_reportedeproblemas.Services.IFileSaver;
 
 import android.content.Context;
 
-/**
- * Created by juanc on 11/16/2017.
- */
+//////////////////////////////////////////////////////////
+//Clase: IFileSaver
+// Descripción: Interfaz de IFileSaver
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
 
 public interface IFileSaver {
     int STATUS_SUCCESS = 1;

@@ -2,6 +2,15 @@ package itesm.mx.movilidad_reportedeproblemas.Services;
 
 import itesm.mx.movilidad_reportedeproblemas.Models.Report;
 
+//////////////////////////////////////////////////////////
+//Clase: StatusParser
+// Descripción: Esta clase cambia el status.
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
+
 public class StatusParser {
     private StatusParser() {}
 

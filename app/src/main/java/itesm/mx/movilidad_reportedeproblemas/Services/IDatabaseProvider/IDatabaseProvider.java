@@ -13,9 +13,14 @@ import itesm.mx.movilidad_reportedeproblemas.Models.UploadedFile;
 import itesm.mx.movilidad_reportedeproblemas.Models.User;
 import itesm.mx.movilidad_reportedeproblemas.Models.Voicenote;
 
-/**
- * Created by juanc on 10/31/2017.
- */
+//////////////////////////////////////////////////////////
+//Clase: IDatabaseProvider
+// Descripción: Interfaz de la base de datos.
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
 
 public interface IDatabaseProvider {
     void getReports(IDbHandler<ArrayList<Report>> handler);

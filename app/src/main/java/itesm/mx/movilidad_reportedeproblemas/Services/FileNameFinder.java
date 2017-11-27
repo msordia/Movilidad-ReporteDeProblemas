@@ -1,8 +1,13 @@
 package itesm.mx.movilidad_reportedeproblemas.Services;
 
-/**
- * Created by juanc on 11/2/2017.
- */
+//////////////////////////////////////////////////////////
+//Clase: FileNameFinder
+// Descripción: Esta clase busca los archivos
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
 
 public class FileNameFinder {
     public static String getName(String path) {

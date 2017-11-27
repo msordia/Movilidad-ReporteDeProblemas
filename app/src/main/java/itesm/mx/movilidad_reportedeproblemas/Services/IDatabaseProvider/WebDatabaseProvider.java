@@ -32,9 +32,14 @@ import itesm.mx.movilidad_reportedeproblemas.Services.IJsonParser.CategoryJsonPa
 import itesm.mx.movilidad_reportedeproblemas.Services.IJsonParser.CommentJsonParser;
 import itesm.mx.movilidad_reportedeproblemas.Services.IJsonParser.ReportJsonParser;
 
-/**
- * Created by juanc on 11/7/2017.
- */
+//////////////////////////////////////////////////////////
+//Clase: WebDatabaseProvider
+// Descripción: Clase que conecta la base de datos.
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
 
 public class WebDatabaseProvider implements IDatabaseProvider {
     private final static String BASE_URL = "www.reportesmovilidadtec.x10host.com/service.php";

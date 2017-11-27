@@ -7,6 +7,15 @@ import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.util.Log;
 
+//////////////////////////////////////////////////////////
+//Clase: AudioPlayer
+// Descripción: Reproductor de audio
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
+
 public class AudioPlayer implements IAudioPlayer {
     @Override
     public void play(Context context, byte[] bytes) {

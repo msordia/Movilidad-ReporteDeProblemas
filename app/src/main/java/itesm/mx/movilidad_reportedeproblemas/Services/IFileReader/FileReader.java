@@ -9,9 +9,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
- * Created by juanc on 11/2/2017.
- */
+//////////////////////////////////////////////////////////
+//Clase: FileReader
+// Descripción: Lector de archivos.
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
 
 public class FileReader implements IFileReader {
     @Override

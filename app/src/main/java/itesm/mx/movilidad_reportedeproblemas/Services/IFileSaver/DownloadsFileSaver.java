@@ -13,9 +13,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URLConnection;
 
-/**
- * Created by juanc on 11/16/2017.
- */
+//////////////////////////////////////////////////////////
+//Clase: DownloadsFileSaver
+// Descripción: Se descargan los archivos
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
 
 public class DownloadsFileSaver implements IFileSaver {
     @Override

@@ -8,6 +8,15 @@ import java.text.SimpleDateFormat;
 
 import itesm.mx.movilidad_reportedeproblemas.Models.Report;
 
+//////////////////////////////////////////////////////////
+//Clase: ReportJsonParser
+// Descripción: Se ponen los atributos del reporte.
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
+
 public class ReportJsonParser implements IJsonParser<Report> {
     private SimpleDateFormat _parser = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 

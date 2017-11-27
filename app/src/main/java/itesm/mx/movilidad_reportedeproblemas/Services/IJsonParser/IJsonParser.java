@@ -5,9 +5,13 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 
-/**
- * Created by juanc on 11/7/2017.
- */
+//////////////////////////////////////////////////////////
+//Clase: IJsonParser
+// Descripción: Interfaz de JsonParser
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
 
 public interface IJsonParser<T> {
     T parse(JSONObject json) throws JSONException, ParseException;

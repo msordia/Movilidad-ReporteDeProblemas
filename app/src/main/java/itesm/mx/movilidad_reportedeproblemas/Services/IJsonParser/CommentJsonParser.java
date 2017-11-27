@@ -5,9 +5,14 @@ import org.json.JSONObject;
 
 import itesm.mx.movilidad_reportedeproblemas.Models.Comment;
 
-/**
- * Created by juanc on 11/7/2017.
- */
+//////////////////////////////////////////////////////////
+//Clase: CommentJsonParser
+// Descripción: Comentarios Json
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
 
 public class CommentJsonParser implements IJsonParser<Comment> {
     public Comment parse(JSONObject json) throws JSONException {

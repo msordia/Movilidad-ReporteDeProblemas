@@ -5,9 +5,14 @@ import org.json.JSONObject;
 
 import itesm.mx.movilidad_reportedeproblemas.Models.Category;
 
-/**
- * Created by juanc on 11/7/2017.
- */
+//////////////////////////////////////////////////////////
+//Clase: CategoryJsonParser
+// Descripción: JsonParser categoria
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
 
 public class CategoryJsonParser implements IJsonParser<Category> {
     public Category parse(JSONObject json) throws JSONException {

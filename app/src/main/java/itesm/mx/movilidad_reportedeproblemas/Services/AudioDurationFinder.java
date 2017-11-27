@@ -1,9 +1,12 @@
 package itesm.mx.movilidad_reportedeproblemas.Services;
 
-/**
- * Created by juanc on 11/3/2017.
- */
-
+//////////////////////////////////////////////////////////
+//Clase: AudioDurationFinder
+// Descripción: Se define la duración del audio
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
 public class AudioDurationFinder {
     private AudioDurationFinder() {}
 

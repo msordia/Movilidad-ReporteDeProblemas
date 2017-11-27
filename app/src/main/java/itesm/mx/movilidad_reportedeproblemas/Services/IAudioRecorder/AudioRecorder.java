@@ -10,6 +10,14 @@ import java.io.IOException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+//////////////////////////////////////////////////////////
+//Clase: AudioRecorder
+// Descripción: Grabador de audio
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
 
 public class AudioRecorder implements IAudioRecorder {
     private AudioRecord recorder = null;

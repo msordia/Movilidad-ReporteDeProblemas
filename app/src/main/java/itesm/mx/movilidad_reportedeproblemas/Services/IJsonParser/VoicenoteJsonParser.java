@@ -7,9 +7,14 @@ import java.text.ParseException;
 
 import itesm.mx.movilidad_reportedeproblemas.Models.Voicenote;
 
-/**
- * Created by juanc on 11/7/2017.
- */
+//////////////////////////////////////////////////////////
+//Clase: VoicenoteJsonParser
+// Descripción: Json para notas de voz
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
 
 public class VoicenoteJsonParser implements IJsonParser<Voicenote> {
     @Override

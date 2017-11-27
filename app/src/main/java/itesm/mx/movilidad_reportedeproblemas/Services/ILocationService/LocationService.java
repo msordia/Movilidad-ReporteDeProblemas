@@ -12,6 +12,15 @@ import android.widget.Toast;
 
 import itesm.mx.movilidad_reportedeproblemas.Services.ILocationService.ILocationService;
 
+//////////////////////////////////////////////////////////
+//Clase: LocationService
+// Descripción: Servicios de ubicacion
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
+
 public class LocationService implements ILocationService {
     private double _longitude = Long.MIN_VALUE;
     private double _latitude = Long.MIN_VALUE;

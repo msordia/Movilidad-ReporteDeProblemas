@@ -4,9 +4,14 @@ import android.graphics.Color;
 
 import itesm.mx.movilidad_reportedeproblemas.Models.Report;
 
-/**
- * Created by juanc on 11/17/2017.
- */
+//////////////////////////////////////////////////////////
+//Clase: StatusColotMatcher
+// Descripción: Esta clase cambia el color del estatus.
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
 
 public class StatusColorMatcher {
     public static int getColor(int status) {

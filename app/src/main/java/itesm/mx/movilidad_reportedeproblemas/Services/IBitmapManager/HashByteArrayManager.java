@@ -3,6 +3,15 @@ package itesm.mx.movilidad_reportedeproblemas.Services.IBitmapManager;
 import java.util.Collection;
 import java.util.HashSet;
 
+//////////////////////////////////////////////////////////
+//Clase: HashByteArrayManager
+// Descripción: Administra los bytes.
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
+
 public class HashByteArrayManager implements IByteArrayManager {
     private HashSet<byte[]> _byteArrays = new HashSet<>();
 

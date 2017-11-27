@@ -11,9 +11,14 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-/**
- * Created by juanc on 11/15/2017.
- */
+//////////////////////////////////////////////////////////
+//Clase: WebFileReader
+// Descripción: Lector de archivos en la web
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
 
 public class WebFileReader {
     public final static String BASE_URL = "http://www.reportesmovilidadtec.x10host.com/service.php?action=";

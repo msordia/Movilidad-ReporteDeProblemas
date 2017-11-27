@@ -18,9 +18,18 @@ import itesm.mx.movilidad_reportedeproblemas.Services.IWebsiteReader.IWebsiteRea
 import itesm.mx.movilidad_reportedeproblemas.Services.IWebsiteReader.WebsiteReader;
 
 /**
- * Created by Juan Carlos Guzman Islas on 11/16/2017.
+
  * Based on file by drjuanarturonolazcoflores
  */
+
+//////////////////////////////////////////////////////////
+//Clase: IAudioRecorder
+// Descripción: Interfaz de grabador de audio
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
 
 public class GetLoginProvider implements ILoginProvider {
     private final static String BASE_URL = "https://alsvdbw01.itesm.mx/autentica/autenticacion";

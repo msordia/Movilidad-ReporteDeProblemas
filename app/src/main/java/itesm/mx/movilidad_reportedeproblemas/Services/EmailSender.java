@@ -12,6 +12,14 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+//////////////////////////////////////////////////////////
+//Clase: EmailSender
+// Descripción: Esta clase manda correos al generarse un nuevo reporte o cambiar el estatus
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
 public class EmailSender {
 
     private static final String EMAIL = "reportes.movilidad.tec@gmail.com";

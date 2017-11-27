@@ -1,8 +1,13 @@
 package itesm.mx.movilidad_reportedeproblemas.Services.ILocationService;
 
-/**
- * Created by juanc on 10/31/2017.
- */
+//////////////////////////////////////////////////////////
+//Clase: ILocationService
+// Descripción: Interfaz para los servicios de localizacion
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
 
 public interface ILocationService {
     public class Location{

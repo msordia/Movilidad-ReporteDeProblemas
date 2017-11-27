@@ -2,6 +2,15 @@ package itesm.mx.movilidad_reportedeproblemas.Services.ICommentManager;
 import java.util.Collection;
 import java.util.HashMap;
 
+//////////////////////////////////////////////////////////
+//Clase: HashStringManager
+// Descripción: Manager de los comentarios
+// Autor: Armando Aguiar y Juan Carlos Guzman
+// Fecha de creación: 03/11/2017
+// Fecha de última modificación: 23/11/2017
+//////////////////////////////////////////////////////////
+
+
 public class HashStringManager implements IStringManager {
     private HashMap<String, Integer> _comments = new HashMap<>();
     @Override
