@@ -160,7 +160,7 @@ public class WebDatabaseProvider implements IDatabaseProvider {
         _reader.getWebsiteContent(url, new IWebsiteReader.IWebsiteHandler() {
             @Override
             public void handle(String json) {
-                handler.handle(Objects.equals(json, "1"));
+                handler.handle(Objects.equals(json, "1\n"));
             }
         });
     }
@@ -268,7 +268,7 @@ public class WebDatabaseProvider implements IDatabaseProvider {
         _reader.getWebsiteContent(url, new IWebsiteReader.IWebsiteHandler() {
             @Override
             public void handle(String json) {
-                handler.handle(Objects.equals(json, "1"));
+                handler.handle(Objects.equals(json, "1\n"));
             }
         });
     }

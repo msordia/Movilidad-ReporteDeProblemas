@@ -1,5 +1,6 @@
 package itesm.mx.movilidad_reportedeproblemas.Fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -92,6 +93,19 @@ public class SelectFileFragment extends android.app.Fragment {
 
     @Override
     public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof IStringManager) {
+            _stringManager = (IStringManager) context;
+        } else if (context instanceof IContainer) {
+            _stringManager = (IStringManager)((IContainer) context).getComponent(IStringManager.class, GenerateReportActivity.PATH_CONTAINER);
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement IStringManager or IContainer");
+        }
+    }
+
+    @Override
+    public void onAttach(Activity context) {
         super.onAttach(context);
         if (context instanceof IStringManager) {
             _stringManager = (IStringManager) context;

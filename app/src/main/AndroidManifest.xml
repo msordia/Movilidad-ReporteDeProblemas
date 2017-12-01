@@ -26,7 +26,8 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAGtzzoNSIMSNK9joVeB9qIfBVOIw0GqNk" />
 
-        <activity android:name=".Activities.LoginActivity">
+        <activity android:name=".Activities.LoginActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,13 +37,20 @@
         <activity
             android:name=".Activities.GenerateReportActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".Activities.SuccessActivity" />
-        <activity android:name=".Activities.AdminHomeActivity" />
-        <activity android:name=".Activities.MyReportsActivity" />
-        <activity android:name=".Activities.ReportDetailActivity" />
-        <activity android:name=".Activities.AdminReportListActivity" />
-        <activity android:name=".Activities.ManageAdminsActivity" />
-        <activity android:name=".Activities.StatsActivity"></activity>
+        <activity android:name=".Activities.SuccessActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.AdminHomeActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.MyReportsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.ReportDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.AdminReportListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.ManageAdminsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.StatsActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

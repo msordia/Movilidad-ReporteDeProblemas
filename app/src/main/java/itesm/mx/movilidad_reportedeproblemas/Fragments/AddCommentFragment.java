@@ -1,5 +1,6 @@
 package itesm.mx.movilidad_reportedeproblemas.Fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
@@ -96,6 +97,19 @@ public class AddCommentFragment extends android.app.Fragment {
         } else {
                 throw new RuntimeException(context.toString()
                         + " must implement IStringManager or ICommentManagerContainer");
+        }
+    }
+
+    @Override
+    public void onAttach(Activity context) {
+        super.onAttach(context);
+        if (context instanceof IStringManager) {
+            _commentManager = (IStringManager) context;
+        } else if (context instanceof IContainer) {
+            _commentManager = (IStringManager)((IContainer) context).getComponent(IStringManager.class, GenerateReportActivity.COMMENT_CONTAINER);
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement IStringManager or ICommentManagerContainer");
         }
     }
 

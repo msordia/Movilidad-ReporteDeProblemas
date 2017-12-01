@@ -1,5 +1,6 @@
 package itesm.mx.movilidad_reportedeproblemas.Fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -79,6 +80,19 @@ public class MarkReportAsStartedFragment extends android.app.Fragment {
 
     @Override
     public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof IListener) {
+            _listener = (IListener) context;
+        } else if (context instanceof IContainer) {
+            _listener = (IListener)((IContainer) context).getComponent(IListener.class, GenerateReportActivity.AUDIO_CONTAINER);
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement IByteArrayManager or IContainer");
+        }
+    }
+
+    @Override
+    public void onAttach(Activity context) {
         super.onAttach(context);
         if (context instanceof IListener) {
             _listener = (IListener) context;

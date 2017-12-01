@@ -1,5 +1,6 @@
 package itesm.mx.movilidad_reportedeproblemas.Fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -87,6 +88,19 @@ public class TakePhotoFragment extends android.app.Fragment {
 
     @Override
     public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof IByteArrayManager) {
+            _byteArrayManager = (IByteArrayManager) context;
+        } else if (context instanceof IContainer) {
+            _byteArrayManager = (IByteArrayManager)((IContainer) context).getComponent(IByteArrayManager.class, GenerateReportActivity.BITMAP_CONTAINER);
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement IByteArrayManager or IByteArrayManagerContainer");
+        }
+    }
+
+    @Override
+    public void onAttach(Activity context) {
         super.onAttach(context);
         if (context instanceof IByteArrayManager) {
             _byteArrayManager = (IByteArrayManager) context;

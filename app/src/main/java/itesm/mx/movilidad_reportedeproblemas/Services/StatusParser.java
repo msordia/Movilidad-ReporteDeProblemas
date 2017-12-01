@@ -19,7 +19,7 @@ public class StatusParser {
             case Report.STATUS_IN_PROCESS:
                 return "En proceso";
             case Report.STATUS_FAILURE:
-                return "No se encontro el problema";
+                return "No se encontro";
             case Report.STATUS_PENDING:
                 return "Pendiente";
             case Report.STATUS_SUCCESS:

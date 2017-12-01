@@ -1,6 +1,7 @@
 package itesm.mx.movilidad_reportedeproblemas.Fragments;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -114,6 +115,19 @@ public class AudioRecordFragment extends android.app.Fragment {
 
     @Override
     public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof IByteArrayManager) {
+            _byteArrayManager = (IByteArrayManager) context;
+        } else if (context instanceof IContainer) {
+            _byteArrayManager = (IByteArrayManager)((IContainer) context).getComponent(IByteArrayManager.class, GenerateReportActivity.AUDIO_CONTAINER);
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement IByteArrayManager or IContainer");
+        }
+    }
+
+    @Override
+    public void onAttach(Activity context) {
         super.onAttach(context);
         if (context instanceof IByteArrayManager) {
             _byteArrayManager = (IByteArrayManager) context;

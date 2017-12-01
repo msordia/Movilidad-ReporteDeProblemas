@@ -1,5 +1,6 @@
 package itesm.mx.movilidad_reportedeproblemas.Fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -91,9 +92,21 @@ public class MarkAsFinishedFragment extends android.app.Fragment {
         return view;
     }
 
-
     @Override
     public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof MarkReportAsStartedFragment.IListener) {
+            _listener = (IListener) context;
+        } else if (context instanceof IContainer) {
+            _listener = (IListener) ((IContainer) context).getComponent(IListener.class, GenerateReportActivity.AUDIO_CONTAINER);
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement IByteArrayManager or IContainer");
+        }
+    }
+
+    @Override
+    public void onAttach(Activity context) {
         super.onAttach(context);
         if (context instanceof MarkReportAsStartedFragment.IListener) {
             _listener = (IListener) context;

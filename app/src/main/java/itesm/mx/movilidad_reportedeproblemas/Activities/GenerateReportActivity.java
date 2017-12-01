@@ -298,7 +298,7 @@ public class GenerateReportActivity extends AppCompatActivity implements View.On
             String filePath = data.getData().toString();
             generateFileFragment(filePath);
         }
-        else if (requestCode == PLACE_PICKER_RESULT) {
+        else if (requestCode == PLACE_PICKER_RESULT && resultCode == RESULT_OK) {
             Place place = PlacePicker.getPlace(this, data);
             _locationService.setLocation(place.getLatLng().longitude, place.getLatLng().latitude);
         }
